@@ -38,9 +38,9 @@ pip install isaacsim[all,extscache]==4.5.0 --extra-index-url https://pypi.nvidia
 ./isaaclab.sh -i none
 ```
 
-- 下载项目代码并安装依赖环境:
+- 下载项目代码:
 ``` sh
-git clone https://github.com/limxdynamics/limx_rl_forge.git
+git clone https://github.com/limxdynamics/humanoid-rl-isaaclab.git
 pip install -r requirements.txt
 ```
 
