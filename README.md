@@ -71,71 +71,9 @@ python scripts/rsl_rl/play.py --task LimX-Oli-31dof-Velocity
 
 ## Deployment
 
-### Sim2Sim
-
-- Run the inference code and export the model, you will find a generated `policy.onnx` in the checkpoint folder:
-``` sh
-python scripts/rsl_rl/play.py --task LimX-Oli-31dof-Velocity --checkpoint path-to-model
-```
-
-- Install the `humanoid-rl-deploy-python` and `humanoid-mujoco-sim` toolkits by
-``` sh
-mkdir limx_ws
-# Download the Mujoco simulator
-git clone --recurse git@github.com:limxdynamics/humanoid-mujoco-sim.git
-pip install humanoid-mujoco-sim/limxsdk-lowlevel/python3/amd64/limxsdk-*-py3-none-any.whl
-# Download the motion control algorithm
-git clone git@github.com:limxdynamics/humanoid-rl-deploy-python.git
-# Set the robot model
-cd ~/limx_ws
-tree -L 1 humanoid-rl-deploy-python/controllers
-echo 'export ROBOT_TYPE=HU_D03_03' >> ~/.bashrc && source ~/.bashrc # depends on your robot type
-```
-
-- Open a Bash terminal and start the simulator by
-``` sh
-python humanoid-mujoco-sim/simulator.py
-```
-
-- Put the `policy.onnx` in the folder `limx_ws/humanoid-rl-deploy-python/controllers/HU_D03_03/walking_controller/policy/default`. Then, open another Bash terminal and run the algorithm by
-``` sh
-python humanoid-rl-deploy-python/main.py
-```
-
-- Finally, use the virtual joystick to control the robot. Open another Bash terminal and run
-``` sh
-./humanoid-mujoco-sim/robot-joystick/robot-joystick
-```
-
-- Available commands are as follows:
-
-|**Button**	| **Mode**	| **Description** |
-|:-|:-|:-|
-|L1+Y|	Switch to Stand Mode|	If the robot cannot stand, click "Reset (Backspace)" in the MuJoCo interface to reset it.
-|L1+B|	Switch to Greeting Mode	|  |
-|R2+X| Switch to Walking Mode | **This mode will use your model!!!** |
-|L1+A| Switch to Damping Mode| |
-|L1+X| Exit| |
-
-
-### Sim2Real
-- Make sure your model runs perfectly in the `sim2sim`!!!
-- Start the robot and complete the calibration.
-- Ensure your computer is connected to the robot's external network port. Set your computer's IP address to `10.192.1.200` and verify connectivity with the Shell command ping `10.192.1.2`.
-- Press `L1 + START` on the remote control to switch to developer mode (This mode setting persists after rebooting. To exit developer mode, press `L1 + L2 + START`).
-- Stop the internal controller by
-``` sh
-ssh limx@10.192.1.2
-ps -ef | grep "ability"
-sudo kill -9 PID
-```
-- Start the control algorithm by
-``` sh
-python humanoid-rl-deploy-python/main.py 10.192.1.2
-```
-- Press `L1+Y` to make the robot stand up.
-- Press `R1+X` to activate the walking controller.
-
+Please refer to the following projects for the `sim2sim` and `sim2real` instructions:
+- [Deployment with Python](https://github.com/limxdynamics/humanoid-rl-deploy-python)
+- [Deployment with C++](https://github.com/limxdynamics/humanoid-rl-deploy-cpp)
 
 ## Acknowledgments
 This project is built upon several excellent projects:
