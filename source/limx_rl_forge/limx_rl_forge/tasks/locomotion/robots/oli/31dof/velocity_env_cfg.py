@@ -194,7 +194,7 @@ class VelocityCommandsCfg:
         heading_control_stiffness=1.0 / math.pi,
         debug_vis=True,
         ranges=mdp.UniformVelocityCommandCfg.Ranges(
-            lin_vel_x=(-0.5, 1.5), lin_vel_y=(-0.3, 0.3), ang_vel_z=(-1.0, 1.0), heading=(-math.pi, math.pi)
+            lin_vel_x=(-0.5, 2.5), lin_vel_y=(-0.3, 0.3), ang_vel_z=(-1.0, 1.0), heading=(-math.pi, math.pi)
         ),
     )
 
@@ -570,7 +570,7 @@ class VelocityEventCfg:
         mode="interval",
         interval_range_s=(5.0, 15.0),
         params={
-            "velocity_range": {"x": (-1.0, 1.0), "y": (-0.5, 0.5)}, 
+            "velocity_range": {"x": (-2.5, 2.5), "y": (-0.5, 0.5)}, 
             "asset_cfg": SceneEntityCfg("robot", body_names="base_link"),
         },
     )
