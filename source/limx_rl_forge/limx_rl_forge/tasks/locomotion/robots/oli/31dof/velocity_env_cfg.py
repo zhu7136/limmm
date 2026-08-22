@@ -194,7 +194,7 @@ class VelocityCommandsCfg:
         heading_control_stiffness=1.0 / math.pi,
         debug_vis=True,
         ranges=mdp.UniformVelocityCommandCfg.Ranges(
-            lin_vel_x=(-0.5, 1.0), lin_vel_y=(-0.3, 0.3), ang_vel_z=(-1.0, 1.0), heading=(-math.pi, math.pi)
+            lin_vel_x=(-0.5, 1.5), lin_vel_y=(-0.3, 0.3), ang_vel_z=(-1.0, 1.0), heading=(-math.pi, math.pi)
         ),
     )
 
@@ -329,10 +329,10 @@ class VelocityRewardsCfg:
     # -- Task rewards
     track_lin_vel_xy_exp = RewTerm(
         func=mdp.track_lin_vel_xy_exp, 
-        weight=2.0, 
+        weight=2.5, 
         params={
             "command_name": "base_velocity", 
-            "std": math.sqrt(0.25), 
+            "std": math.sqrt(0.09), 
         }
     )
     track_ang_vel_z_exp = RewTerm(
