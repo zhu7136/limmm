@@ -194,7 +194,7 @@ class VelocityCommandsCfg:
         heading_control_stiffness=1.0 / math.pi,
         debug_vis=True,
         ranges=mdp.UniformVelocityCommandCfg.Ranges(
-            lin_vel_x=(-0.5, 2.5), lin_vel_y=(-0.3, 0.3), ang_vel_z=(-1.0, 1.0), heading=(-math.pi, math.pi)
+            lin_vel_x=(-0.5, 2.0), lin_vel_y=(-0.3, 0.3), ang_vel_z=(-1.0, 1.0), heading=(-math.pi, math.pi)
         ),
     )
 
@@ -349,7 +349,7 @@ class VelocityRewardsCfg:
         func=mdp.feet_gait,
         weight=0.5,
         params={
-            "period": 1.2,
+            "period": 0.667,
             "offset": [0.0, 0.5],
             "threshold": 0.55,
             "command_name": "base_velocity",
@@ -380,6 +380,12 @@ class VelocityRewardsCfg:
     # -- termination -- #
     is_alive = RewTerm(func=mdp.is_alive, weight=1.0)
     is_terminated = RewTerm(func=mdp.is_terminated, weight=-1.0)
+
+    # -- logging (weight=0, not affecting training) -- #
+    base_vx = RewTerm(
+        func=mdp.base_lin_vel_x,
+        weight=0.0,
+    )
 
     # -- torso control -- #
     body_ang_vel = RewTerm(
@@ -570,7 +576,7 @@ class VelocityEventCfg:
         mode="interval",
         interval_range_s=(5.0, 15.0),
         params={
-            "velocity_range": {"x": (-2.5, 2.5), "y": (-0.5, 0.5)}, 
+            "velocity_range": {"x": (-2.0, 2.0), "y": (-0.5, 0.5)}, 
             "asset_cfg": SceneEntityCfg("robot", body_names="base_link"),
         },
     )
