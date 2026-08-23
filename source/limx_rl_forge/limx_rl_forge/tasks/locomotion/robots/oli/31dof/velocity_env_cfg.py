@@ -189,16 +189,16 @@ class VelocityCommandsCfg:
     base_velocity = BiasedVelocityCommandCfg(
         asset_name="robot",
         resampling_time_range=(10.0, 10.0),
-        rel_standing_envs=0.1,
+        rel_standing_envs=0.05,
         rel_heading_envs=1.0,
         heading_command=True,
         heading_control_stiffness=1.0 / math.pi,
         debug_vis=True,
-        high_speed_prob=0.7,
-        high_speed_range=(1.0, 2.0),
+        high_speed_prob=0.8,
+        high_speed_range=(1.5, 2.5),
         low_speed_range=(-0.5, 1.0),
         ranges=BiasedVelocityCommandCfg.Ranges(
-            lin_vel_x=(-0.5, 2.0), lin_vel_y=(-0.3, 0.3), ang_vel_z=(-1.0, 1.0), heading=(-math.pi, math.pi)
+            lin_vel_x=(-0.5, 2.5), lin_vel_y=(-0.15, 0.15), ang_vel_z=(-0.5, 0.5), heading=(-math.pi, math.pi)
         ),
     )
 
