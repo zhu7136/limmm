@@ -1,0 +1,150 @@
+--- git status ---
+On branch main
+Your branch is ahead of 'origin/main' by 2 commits.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   source/limx_rl_forge/limx_rl_forge/assets/config/HU_D04_01.py
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	humanoid-description
+	logs/
+	outputs/
+	scripts/rsl_rl/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/assets/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/assets/config/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/commands/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/terrain/__pycache__/
+	wandb/
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/source/limx_rl_forge/limx_rl_forge/assets/config/HU_D04_01.py b/source/limx_rl_forge/limx_rl_forge/assets/config/HU_D04_01.py
+index 8f7c227..123027f 100644
+--- a/source/limx_rl_forge/limx_rl_forge/assets/config/HU_D04_01.py
++++ b/source/limx_rl_forge/limx_rl_forge/assets/config/HU_D04_01.py
+@@ -214,29 +214,29 @@ LIMX_HUD04_01_CFG_SERIAL = ArticulationCfg(
+                 '.*_wrist_roll_joint': 19,
+             },
+             velocity_limit={
+-                '.*_hip_pitch_joint': 12,
+-                '.*_hip_roll_joint': 12,
+-                '.*_hip_yaw_joint': 12,
+-                '.*_knee_joint': 12,
++                '.*_hip_pitch_joint': 24,
++                '.*_hip_roll_joint': 24,
++                '.*_hip_yaw_joint': 24,
++                '.*_knee_joint': 24,
+ 
+-                ".*_ankle_pitch_joint": 13.6,
+-                ".*_ankle_roll_joint": 13.6,
++                ".*_ankle_pitch_joint": 27.2,
++                ".*_ankle_roll_joint": 27.2,
+ 
+-                'waist_yaw_joint': 13.6,
+-                'waist_roll_joint': 13.6,
+-                'waist_pitch_joint': 13.6,
++                'waist_yaw_joint': 27.2,
++                'waist_roll_joint': 27.2,
++                'waist_pitch_joint': 27.2,
+ 
+-                'head_pitch_joint': 13,
+-                'head_yaw_joint': 13,
++                'head_pitch_joint': 26,
++                'head_yaw_joint': 26,
+ 
+-                '.*_shoulder_pitch_joint': 19.6,
+-                '.*_shoulder_roll_joint': 19.6,
+-                '.*_shoulder_yaw_joint': 19.6,
+-                '.*_elbow_joint': 19.6,
++                '.*_shoulder_pitch_joint': 39.2,
++                '.*_shoulder_roll_joint': 39.2,
++                '.*_shoulder_yaw_joint': 39.2,
++                '.*_elbow_joint': 39.2,
+ 
+-                '.*_wrist_yaw_joint': 13,
+-                '.*_wrist_pitch_joint': 13,
+-                '.*_wrist_roll_joint': 13,
++                '.*_wrist_yaw_joint': 26,
++                '.*_wrist_pitch_joint': 26,
++                '.*_wrist_roll_joint': 26,
+             },
+             armature={
+                 '.*_hip_pitch_joint': ARMATURE_LEG,
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py
+index fe2d5dc..dab10d2 100644
+--- a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py
++++ b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py
+@@ -943,4 +943,12 @@ def foot_clearance_reward(
+     foot_z_target_error = torch.square(asset.data.body_pos_w[:, asset_cfg.body_ids, 2] - target_height)
+     foot_velocity_tanh = torch.tanh(tanh_mult * torch.norm(asset.data.body_lin_vel_w[:, asset_cfg.body_ids, :2], dim=2))
+     reward = foot_z_target_error * foot_velocity_tanh
+-    return torch.exp(-torch.sum(reward, dim=1) / std)
+\ No newline at end of file
++    return torch.exp(-torch.sum(reward, dim=1) / std)
++
++
++def base_lin_vel_x(
++    env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
++) -> torch.Tensor:
++    """Root linear velocity x component in the asset's root frame (for logging, weight=0)."""
++    asset = env.scene[asset_cfg.name]
++    return asset.data.root_lin_vel_b[:, 0]
+\ No newline at end of file
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py
+index 011ad45..c88a907 100644
+--- a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py
++++ b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py
+@@ -20,6 +20,7 @@ import isaaclab.sim as sim_utils
+ from limx_rl_forge.assets.config.HU_D04_01 import LIMX_HUD04_01_CFG_SERIAL as HU_D04_01  # isort: skip
+ from limx_rl_forge.tasks.locomotion.terrain.rough import ROUGH_TERRAINS_CFG as ROUGH_TERRAINS_CFG
+ import limx_rl_forge.tasks.locomotion.mdp as mdp
++from limx_rl_forge.tasks.locomotion.mdp.commands.custom_velocity_command import BiasedVelocityCommandCfg
+ 
+ 
+ BODY_NAMES = [
+@@ -185,7 +186,7 @@ class MySceneCfg(InteractiveSceneCfg):
+ 
+ @configclass
+ class VelocityCommandsCfg:
+-    base_velocity = mdp.UniformVelocityCommandCfg(
++    base_velocity = BiasedVelocityCommandCfg(
+         asset_name="robot",
+         resampling_time_range=(10.0, 10.0),
+         rel_standing_envs=0.1,
+@@ -193,7 +194,10 @@ class VelocityCommandsCfg:
+         heading_command=True,
+         heading_control_stiffness=1.0 / math.pi,
+         debug_vis=True,
+-        ranges=mdp.UniformVelocityCommandCfg.Ranges(
++        high_speed_prob=0.7,
++        high_speed_range=(1.0, 2.0),
++        low_speed_range=(-0.5, 1.0),
++        ranges=BiasedVelocityCommandCfg.Ranges(
+             lin_vel_x=(-0.5, 2.0), lin_vel_y=(-0.3, 0.3), ang_vel_z=(-1.0, 1.0), heading=(-math.pi, math.pi)
+         ),
+     )
+@@ -576,7 +580,7 @@ class VelocityEventCfg:
+         mode="interval",
+         interval_range_s=(5.0, 15.0),
+         params={
+-            "velocity_range": {"x": (-2.0, 2.0), "y": (-0.5, 0.5)}, 
++            "velocity_range": {"x": (1.0, 2.0), "y": (-0.5, 0.5)}, 
+             "asset_cfg": SceneEntityCfg("robot", body_names="base_link"),
+         },
+     )

@@ -1,0 +1,24 @@
+{
+    "os": "Linux-5.4.250-9-velinux1u1-amd64-x86_64-with-glibc2.35",
+    "python": "3.10.15",
+    "heartbeatAt": "2026-08-23T02:20:38.719461",
+    "startedAt": "2026-08-23T02:20:33.257411",
+    "docker": null,
+    "gpu": "NVIDIA GeForce RTX 4090 D",
+    "gpu_count": 1,
+    "cpu_count": 20,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/root/code/limmm/scripts/rsl_rl/train.py",
+    "codePath": "scripts/rsl_rl/train.py",
+    "git": {
+        "remote": "https://github.com/zhu7136/limmm.git",
+        "commit": "ceb5cc4dd8f7d03495b2681b5f01659953e782b4"
+    },
+    "email": "zhu7136@users.noreply.github.com",
+    "root": "/root/code/limmm",
+    "host": "di-20260822140053-mncx8",
+    "username": "zhul136-university-of-science-and-technology-of-china",
+    "executable": "/workspace/isaaclab/_isaac_sim/kit/python/bin/python3"
+}

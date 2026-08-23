@@ -1,0 +1,801 @@
+################################################################################
+                    [1m Learning iteration 12000/52000 
+                       Computation: 31385 steps/s (collection: 3.878s, learning 0.298s)
+               Value function loss: 0.0058
+                    Surrogate loss: -0.0137
+             Mean action noise std: 1.97
+                       Mean reward: 0.28
+               Mean episode length: 15.00
+Episode_Reward/track_lin_vel_xy_exp: 0.0024
+Episode_Reward/track_ang_vel_z_exp: 0.0096
+               Episode_Reward/gait: 0.0023
+      Episode_Reward/feet_air_time: 0.0001
+     Episode_Reward/feet_clearance: 0.0081
+           Episode_Reward/is_alive: 0.0082
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0008
+   Episode_Reward/body_orientation: -0.0001
+       Episode_Reward/body_lin_acc: -0.0002
+         Episode_Reward/feet_slide: -0.0005
+ Episode_Reward/undesired_contacts: -0.0042
+Episode_Reward/joint_position_normalization_amp: -0.0019
+         Episode_Reward/dof_acc_l2: -0.0034
+         Episode_Reward/dof_vel_l2: -0.0011
+     Episode_Reward/dof_torques_l2: -0.0001
+   Episode_Reward/joint_pos_limits: 0.0000
+Episode_Reward/applied_torque_limits: -0.0014
+     Episode_Reward/action_rate_l2: -0.0086
+         Curriculum/terrain_levels: 0.0032
+Metrics/base_velocity/error_vel_xy: 0.0171
+Metrics/base_velocity/error_vel_yaw: 0.0062
+      Episode_Termination/time_out: 2.2500
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 131072
+                    Iteration time: 4.18s
+                        Total time: 4.18s
+                               ETA: 9.7s
+Could not find git repository in /workspace/isaaclab/_isaac_sim/kit/python/lib/python3.10/site-packages/rsl_rl/__init__.py. Skipping.
+Storing git diff for 'limmm' in: /root/code/limmm/logs/rsl_rl/ppo/2026-08-22_23-38-21/git/limmm.diff
+################################################################################
+                    [1m Learning iteration 12001/52000 
+                       Computation: 56710 steps/s (collection: 2.079s, learning 0.233s)
+               Value function loss: 0.0054
+                    Surrogate loss: -0.0182
+             Mean action noise std: 1.96
+                       Mean reward: 0.85
+               Mean episode length: 39.56
+Episode_Reward/track_lin_vel_xy_exp: 0.0181
+Episode_Reward/track_ang_vel_z_exp: 0.0291
+               Episode_Reward/gait: 0.0105
+      Episode_Reward/feet_air_time: 0.0006
+     Episode_Reward/feet_clearance: 0.0239
+           Episode_Reward/is_alive: 0.0242
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0021
+   Episode_Reward/body_orientation: -0.0008
+       Episode_Reward/body_lin_acc: -0.0004
+         Episode_Reward/feet_slide: -0.0016
+ Episode_Reward/undesired_contacts: -0.0061
+Episode_Reward/joint_position_normalization_amp: -0.0078
+         Episode_Reward/dof_acc_l2: -0.0080
+         Episode_Reward/dof_vel_l2: -0.0034
+     Episode_Reward/dof_torques_l2: -0.0002
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0043
+     Episode_Reward/action_rate_l2: -0.0254
+         Curriculum/terrain_levels: 0.0032
+Metrics/base_velocity/error_vel_xy: 0.0379
+Metrics/base_velocity/error_vel_yaw: 0.0178
+      Episode_Termination/time_out: 2.3125
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 262144
+                    Iteration time: 2.31s
+                        Total time: 6.49s
+                               ETA: 15.1s
+################################################################################
+                    [1m Learning iteration 12002/52000 
+                       Computation: 55786 steps/s (collection: 2.119s, learning 0.231s)
+               Value function loss: 0.0051
+                    Surrogate loss: -0.0180
+             Mean action noise std: 1.96
+                       Mean reward: 1.81
+               Mean episode length: 76.17
+Episode_Reward/track_lin_vel_xy_exp: 0.0417
+Episode_Reward/track_ang_vel_z_exp: 0.0486
+               Episode_Reward/gait: 0.0164
+      Episode_Reward/feet_air_time: 0.0010
+     Episode_Reward/feet_clearance: 0.0397
+           Episode_Reward/is_alive: 0.0402
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0035
+   Episode_Reward/body_orientation: -0.0022
+       Episode_Reward/body_lin_acc: -0.0007
+         Episode_Reward/feet_slide: -0.0029
+ Episode_Reward/undesired_contacts: -0.0024
+Episode_Reward/joint_position_normalization_amp: -0.0150
+         Episode_Reward/dof_acc_l2: -0.0130
+         Episode_Reward/dof_vel_l2: -0.0059
+     Episode_Reward/dof_torques_l2: -0.0003
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0121
+     Episode_Reward/action_rate_l2: -0.0422
+         Curriculum/terrain_levels: 0.0032
+Metrics/base_velocity/error_vel_xy: 0.0480
+Metrics/base_velocity/error_vel_yaw: 0.0297
+      Episode_Termination/time_out: 2.5938
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 393216
+                    Iteration time: 2.35s
+                        Total time: 8.84s
+                               ETA: 20.6s
+################################################################################
+                    [1m Learning iteration 12003/52000 
+                       Computation: 57700 steps/s (collection: 2.041s, learning 0.230s)
+               Value function loss: 0.0040
+                    Surrogate loss: -0.0188
+             Mean action noise std: 1.96
+                       Mean reward: 2.61
+               Mean episode length: 105.73
+Episode_Reward/track_lin_vel_xy_exp: 0.0658
+Episode_Reward/track_ang_vel_z_exp: 0.0689
+               Episode_Reward/gait: 0.0248
+      Episode_Reward/feet_air_time: 0.0016
+     Episode_Reward/feet_clearance: 0.0555
+           Episode_Reward/is_alive: 0.0562
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0045
+   Episode_Reward/body_orientation: -0.0027
+       Episode_Reward/body_lin_acc: -0.0009
+         Episode_Reward/feet_slide: -0.0042
+ Episode_Reward/undesired_contacts: -0.0079
+Episode_Reward/joint_position_normalization_amp: -0.0219
+         Episode_Reward/dof_acc_l2: -0.0175
+         Episode_Reward/dof_vel_l2: -0.0082
+     Episode_Reward/dof_torques_l2: -0.0004
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0139
+     Episode_Reward/action_rate_l2: -0.0592
+         Curriculum/terrain_levels: 0.0032
+Metrics/base_velocity/error_vel_xy: 0.0610
+Metrics/base_velocity/error_vel_yaw: 0.0409
+      Episode_Termination/time_out: 2.5938
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 524288
+                    Iteration time: 2.27s
+                        Total time: 11.11s
+                               ETA: 25.9s
+################################################################################
+                    [1m Learning iteration 12004/52000 
+                       Computation: 58508 steps/s (collection: 2.010s, learning 0.230s)
+               Value function loss: 0.0033
+                    Surrogate loss: -0.0196
+             Mean action noise std: 1.96
+                       Mean reward: 3.84
+               Mean episode length: 137.04
+Episode_Reward/track_lin_vel_xy_exp: 0.0994
+Episode_Reward/track_ang_vel_z_exp: 0.0892
+               Episode_Reward/gait: 0.0324
+      Episode_Reward/feet_air_time: 0.0022
+     Episode_Reward/feet_clearance: 0.0713
+           Episode_Reward/is_alive: 0.0722
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0057
+   Episode_Reward/body_orientation: -0.0033
+       Episode_Reward/body_lin_acc: -0.0012
+         Episode_Reward/feet_slide: -0.0055
+ Episode_Reward/undesired_contacts: -0.0070
+Episode_Reward/joint_position_normalization_amp: -0.0281
+         Episode_Reward/dof_acc_l2: -0.0220
+         Episode_Reward/dof_vel_l2: -0.0107
+     Episode_Reward/dof_torques_l2: -0.0006
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0180
+     Episode_Reward/action_rate_l2: -0.0757
+         Curriculum/terrain_levels: 0.0032
+Metrics/base_velocity/error_vel_xy: 0.0578
+Metrics/base_velocity/error_vel_yaw: 0.0521
+      Episode_Termination/time_out: 2.5000
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 655360
+                    Iteration time: 2.24s
+                        Total time: 13.35s
+                               ETA: 31.1s
+################################################################################
+                    [1m Learning iteration 12005/52000 
+                       Computation: 58713 steps/s (collection: 2.001s, learning 0.231s)
+               Value function loss: 0.0031
+                    Surrogate loss: -0.0201
+             Mean action noise std: 1.95
+                       Mean reward: 4.75
+               Mean episode length: 164.52
+Episode_Reward/track_lin_vel_xy_exp: 0.1414
+Episode_Reward/track_ang_vel_z_exp: 0.1092
+               Episode_Reward/gait: 0.0456
+      Episode_Reward/feet_air_time: 0.0028
+     Episode_Reward/feet_clearance: 0.0871
+           Episode_Reward/is_alive: 0.0882
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0069
+   Episode_Reward/body_orientation: -0.0039
+       Episode_Reward/body_lin_acc: -0.0014
+         Episode_Reward/feet_slide: -0.0065
+ Episode_Reward/undesired_contacts: -0.0051
+Episode_Reward/joint_position_normalization_amp: -0.0344
+         Episode_Reward/dof_acc_l2: -0.0265
+         Episode_Reward/dof_vel_l2: -0.0129
+     Episode_Reward/dof_torques_l2: -0.0007
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0227
+     Episode_Reward/action_rate_l2: -0.0922
+         Curriculum/terrain_levels: 0.0032
+Metrics/base_velocity/error_vel_xy: 0.0566
+Metrics/base_velocity/error_vel_yaw: 0.0636
+      Episode_Termination/time_out: 1.9062
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 786432
+                    Iteration time: 2.23s
+                        Total time: 15.58s
+                               ETA: 36.3s
+################################################################################
+                    [1m Learning iteration 12006/52000 
+                       Computation: 60011 steps/s (collection: 1.954s, learning 0.231s)
+               Value function loss: 0.0029
+                    Surrogate loss: -0.0200
+             Mean action noise std: 1.95
+                       Mean reward: 5.78
+               Mean episode length: 193.78
+Episode_Reward/track_lin_vel_xy_exp: 0.1702
+Episode_Reward/track_ang_vel_z_exp: 0.1299
+               Episode_Reward/gait: 0.0342
+      Episode_Reward/feet_air_time: 0.0029
+     Episode_Reward/feet_clearance: 0.1025
+           Episode_Reward/is_alive: 0.1042
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0080
+   Episode_Reward/body_orientation: -0.0056
+       Episode_Reward/body_lin_acc: -0.0016
+         Episode_Reward/feet_slide: -0.0081
+ Episode_Reward/undesired_contacts: -0.0062
+Episode_Reward/joint_position_normalization_amp: -0.0414
+         Episode_Reward/dof_acc_l2: -0.0320
+         Episode_Reward/dof_vel_l2: -0.0157
+     Episode_Reward/dof_torques_l2: -0.0009
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0320
+     Episode_Reward/action_rate_l2: -0.1090
+         Curriculum/terrain_levels: 0.0032
+Metrics/base_velocity/error_vel_xy: 0.0691
+Metrics/base_velocity/error_vel_yaw: 0.0739
+      Episode_Termination/time_out: 2.0000
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 917504
+                    Iteration time: 2.18s
+                        Total time: 17.77s
+                               ETA: 41.4s
+################################################################################
+                    [1m Learning iteration 12007/52000 
+                       Computation: 57787 steps/s (collection: 2.034s, learning 0.234s)
+               Value function loss: 0.0031
+                    Surrogate loss: -0.0189
+             Mean action noise std: 1.95
+                       Mean reward: 7.00
+               Mean episode length: 232.54
+Episode_Reward/track_lin_vel_xy_exp: 0.2046
+Episode_Reward/track_ang_vel_z_exp: 0.1484
+               Episode_Reward/gait: 0.0498
+      Episode_Reward/feet_air_time: 0.0038
+     Episode_Reward/feet_clearance: 0.1182
+           Episode_Reward/is_alive: 0.1202
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0092
+   Episode_Reward/body_orientation: -0.0057
+       Episode_Reward/body_lin_acc: -0.0019
+         Episode_Reward/feet_slide: -0.0093
+ Episode_Reward/undesired_contacts: -0.0047
+Episode_Reward/joint_position_normalization_amp: -0.0471
+         Episode_Reward/dof_acc_l2: -0.0360
+         Episode_Reward/dof_vel_l2: -0.0180
+     Episode_Reward/dof_torques_l2: -0.0010
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0514
+     Episode_Reward/action_rate_l2: -0.1251
+         Curriculum/terrain_levels: 0.0032
+Metrics/base_velocity/error_vel_xy: 0.0661
+Metrics/base_velocity/error_vel_yaw: 0.0869
+      Episode_Termination/time_out: 2.6250
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 1048576
+                    Iteration time: 2.27s
+                        Total time: 20.03s
+                               ETA: 46.7s
+################################################################################
+                    [1m Learning iteration 12008/52000 
+                       Computation: 53125 steps/s (collection: 2.232s, learning 0.235s)
+               Value function loss: 0.0027
+                    Surrogate loss: -0.0197
+             Mean action noise std: 1.94
+                       Mean reward: 8.26
+               Mean episode length: 267.43
+Episode_Reward/track_lin_vel_xy_exp: 0.2255
+Episode_Reward/track_ang_vel_z_exp: 0.1722
+               Episode_Reward/gait: 0.0707
+      Episode_Reward/feet_air_time: 0.0051
+     Episode_Reward/feet_clearance: 0.1343
+           Episode_Reward/is_alive: 0.1362
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0100
+   Episode_Reward/body_orientation: -0.0067
+       Episode_Reward/body_lin_acc: -0.0021
+         Episode_Reward/feet_slide: -0.0110
+ Episode_Reward/undesired_contacts: -0.0101
+Episode_Reward/joint_position_normalization_amp: -0.0574
+         Episode_Reward/dof_acc_l2: -0.0408
+         Episode_Reward/dof_vel_l2: -0.0207
+     Episode_Reward/dof_torques_l2: -0.0012
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0411
+     Episode_Reward/action_rate_l2: -0.1424
+         Curriculum/terrain_levels: 0.0042
+Metrics/base_velocity/error_vel_xy: 0.0860
+Metrics/base_velocity/error_vel_yaw: 0.0949
+      Episode_Termination/time_out: 2.5625
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 1179648
+                    Iteration time: 2.47s
+                        Total time: 22.50s
+                               ETA: 52.4s
+################################################################################
+                    [1m Learning iteration 12009/52000 
+                       Computation: 58762 steps/s (collection: 1.999s, learning 0.232s)
+               Value function loss: 0.0027
+                    Surrogate loss: -0.0204
+             Mean action noise std: 1.94
+                       Mean reward: 9.29
+               Mean episode length: 296.61
+Episode_Reward/track_lin_vel_xy_exp: 0.2691
+Episode_Reward/track_ang_vel_z_exp: 0.1911
+               Episode_Reward/gait: 0.0603
+      Episode_Reward/feet_air_time: 0.0052
+     Episode_Reward/feet_clearance: 0.1499
+           Episode_Reward/is_alive: 0.1520
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0107
+   Episode_Reward/body_orientation: -0.0073
+       Episode_Reward/body_lin_acc: -0.0023
+         Episode_Reward/feet_slide: -0.0124
+ Episode_Reward/undesired_contacts: -0.0073
+Episode_Reward/joint_position_normalization_amp: -0.0615
+         Episode_Reward/dof_acc_l2: -0.0448
+         Episode_Reward/dof_vel_l2: -0.0228
+     Episode_Reward/dof_torques_l2: -0.0013
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0397
+     Episode_Reward/action_rate_l2: -0.1589
+         Curriculum/terrain_levels: 0.0070
+Metrics/base_velocity/error_vel_xy: 0.0791
+Metrics/base_velocity/error_vel_yaw: 0.1066
+      Episode_Termination/time_out: 2.9688
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 1310720
+                    Iteration time: 2.23s
+                        Total time: 24.73s
+                               ETA: 57.6s
+################################################################################
+                    [1m Learning iteration 12010/52000 
+                       Computation: 58487 steps/s (collection: 2.008s, learning 0.233s)
+               Value function loss: 0.0026
+                    Surrogate loss: -0.0198
+             Mean action noise std: 1.94
+                       Mean reward: 10.89
+               Mean episode length: 332.81
+Episode_Reward/track_lin_vel_xy_exp: 0.3047
+Episode_Reward/track_ang_vel_z_exp: 0.2153
+               Episode_Reward/gait: 0.0820
+      Episode_Reward/feet_air_time: 0.0061
+     Episode_Reward/feet_clearance: 0.1660
+           Episode_Reward/is_alive: 0.1682
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0121
+   Episode_Reward/body_orientation: -0.0078
+       Episode_Reward/body_lin_acc: -0.0025
+         Episode_Reward/feet_slide: -0.0131
+ Episode_Reward/undesired_contacts: -0.0054
+Episode_Reward/joint_position_normalization_amp: -0.0668
+         Episode_Reward/dof_acc_l2: -0.0493
+         Episode_Reward/dof_vel_l2: -0.0249
+     Episode_Reward/dof_torques_l2: -0.0014
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0412
+     Episode_Reward/action_rate_l2: -0.1748
+         Curriculum/terrain_levels: 0.0122
+Metrics/base_velocity/error_vel_xy: 0.0829
+Metrics/base_velocity/error_vel_yaw: 0.1146
+      Episode_Termination/time_out: 3.0312
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 1441792
+                    Iteration time: 2.24s
+                        Total time: 26.97s
+                               ETA: 62.9s
+################################################################################
+                    [1m Learning iteration 12011/52000 
+                       Computation: 56684 steps/s (collection: 2.079s, learning 0.233s)
+               Value function loss: 0.0026
+                    Surrogate loss: -0.0202
+             Mean action noise std: 1.93
+                       Mean reward: 11.80
+               Mean episode length: 363.81
+Episode_Reward/track_lin_vel_xy_exp: 0.3422
+Episode_Reward/track_ang_vel_z_exp: 0.2346
+               Episode_Reward/gait: 0.0774
+      Episode_Reward/feet_air_time: 0.0062
+     Episode_Reward/feet_clearance: 0.1818
+           Episode_Reward/is_alive: 0.1842
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0133
+   Episode_Reward/body_orientation: -0.0083
+       Episode_Reward/body_lin_acc: -0.0028
+         Episode_Reward/feet_slide: -0.0140
+ Episode_Reward/undesired_contacts: -0.0098
+Episode_Reward/joint_position_normalization_amp: -0.0718
+         Episode_Reward/dof_acc_l2: -0.0539
+         Episode_Reward/dof_vel_l2: -0.0268
+     Episode_Reward/dof_torques_l2: -0.0016
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0489
+     Episode_Reward/action_rate_l2: -0.1912
+         Curriculum/terrain_levels: 0.0201
+Metrics/base_velocity/error_vel_xy: 0.0821
+Metrics/base_velocity/error_vel_yaw: 0.1270
+      Episode_Termination/time_out: 2.5312
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 1572864
+                    Iteration time: 2.31s
+                        Total time: 29.28s
+                               ETA: 68.2s
+################################################################################
+                    [1m Learning iteration 12012/52000 
+                       Computation: 57620 steps/s (collection: 2.046s, learning 0.229s)
+               Value function loss: 0.0026
+                    Surrogate loss: -0.0186
+             Mean action noise std: 1.93
+                       Mean reward: 13.19
+               Mean episode length: 391.93
+Episode_Reward/track_lin_vel_xy_exp: 0.3794
+Episode_Reward/track_ang_vel_z_exp: 0.2559
+               Episode_Reward/gait: 0.1005
+      Episode_Reward/feet_air_time: 0.0067
+     Episode_Reward/feet_clearance: 0.1974
+           Episode_Reward/is_alive: 0.2002
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0143
+   Episode_Reward/body_orientation: -0.0086
+       Episode_Reward/body_lin_acc: -0.0031
+         Episode_Reward/feet_slide: -0.0156
+ Episode_Reward/undesired_contacts: -0.0109
+Episode_Reward/joint_position_normalization_amp: -0.0780
+         Episode_Reward/dof_acc_l2: -0.0589
+         Episode_Reward/dof_vel_l2: -0.0296
+     Episode_Reward/dof_torques_l2: -0.0017
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0488
+     Episode_Reward/action_rate_l2: -0.2066
+         Curriculum/terrain_levels: 0.0301
+Metrics/base_velocity/error_vel_xy: 0.0856
+Metrics/base_velocity/error_vel_yaw: 0.1371
+      Episode_Termination/time_out: 2.4688
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 1703936
+                    Iteration time: 2.27s
+                        Total time: 31.56s
+                               ETA: 73.5s
+################################################################################
+                    [1m Learning iteration 12013/52000 
+                       Computation: 54016 steps/s (collection: 2.195s, learning 0.231s)
+               Value function loss: 0.0025
+                    Surrogate loss: -0.0206
+             Mean action noise std: 1.93
+                       Mean reward: 14.10
+               Mean episode length: 418.47
+Episode_Reward/track_lin_vel_xy_exp: 0.4205
+Episode_Reward/track_ang_vel_z_exp: 0.2707
+               Episode_Reward/gait: 0.0980
+      Episode_Reward/feet_air_time: 0.0079
+     Episode_Reward/feet_clearance: 0.2137
+           Episode_Reward/is_alive: 0.2162
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0155
+   Episode_Reward/body_orientation: -0.0093
+       Episode_Reward/body_lin_acc: -0.0032
+         Episode_Reward/feet_slide: -0.0151
+ Episode_Reward/undesired_contacts: -0.0080
+Episode_Reward/joint_position_normalization_amp: -0.0833
+         Episode_Reward/dof_acc_l2: -0.0645
+         Episode_Reward/dof_vel_l2: -0.0317
+     Episode_Reward/dof_torques_l2: -0.0018
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0473
+     Episode_Reward/action_rate_l2: -0.2232
+         Curriculum/terrain_levels: 0.0377
+Metrics/base_velocity/error_vel_xy: 0.0815
+Metrics/base_velocity/error_vel_yaw: 0.1529
+      Episode_Termination/time_out: 1.8750
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 1835008
+                    Iteration time: 2.43s
+                        Total time: 33.99s
+                               ETA: 79.2s
+################################################################################
+                    [1m Learning iteration 12014/52000 
+                       Computation: 55869 steps/s (collection: 2.113s, learning 0.233s)
+               Value function loss: 0.0026
+                    Surrogate loss: -0.0197
+             Mean action noise std: 1.92
+                       Mean reward: 15.73
+               Mean episode length: 455.67
+Episode_Reward/track_lin_vel_xy_exp: 0.4567
+Episode_Reward/track_ang_vel_z_exp: 0.2959
+               Episode_Reward/gait: 0.1132
+      Episode_Reward/feet_air_time: 0.0078
+     Episode_Reward/feet_clearance: 0.2290
+           Episode_Reward/is_alive: 0.2321
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0163
+   Episode_Reward/body_orientation: -0.0095
+       Episode_Reward/body_lin_acc: -0.0035
+         Episode_Reward/feet_slide: -0.0172
+ Episode_Reward/undesired_contacts: -0.0090
+Episode_Reward/joint_position_normalization_amp: -0.0891
+         Episode_Reward/dof_acc_l2: -0.0694
+         Episode_Reward/dof_vel_l2: -0.0342
+     Episode_Reward/dof_torques_l2: -0.0019
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0530
+     Episode_Reward/action_rate_l2: -0.2396
+         Curriculum/terrain_levels: 0.0458
+Metrics/base_velocity/error_vel_xy: 0.0839
+Metrics/base_velocity/error_vel_yaw: 0.1598
+      Episode_Termination/time_out: 2.3750
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 1966080
+                    Iteration time: 2.35s
+                        Total time: 36.33s
+                               ETA: 84.6s
+################################################################################
+                    [1m Learning iteration 12015/52000 
+                       Computation: 55590 steps/s (collection: 2.128s, learning 0.230s)
+               Value function loss: 0.0111
+                    Surrogate loss: -0.0152
+             Mean action noise std: 1.92
+                       Mean reward: 17.02
+               Mean episode length: 490.23
+Episode_Reward/track_lin_vel_xy_exp: 0.4914
+Episode_Reward/track_ang_vel_z_exp: 0.3121
+               Episode_Reward/gait: 0.1136
+      Episode_Reward/feet_air_time: 0.0084
+     Episode_Reward/feet_clearance: 0.2449
+           Episode_Reward/is_alive: 0.2482
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0174
+   Episode_Reward/body_orientation: -0.0118
+       Episode_Reward/body_lin_acc: -0.0038
+         Episode_Reward/feet_slide: -0.0185
+ Episode_Reward/undesired_contacts: -0.0076
+Episode_Reward/joint_position_normalization_amp: -0.0964
+         Episode_Reward/dof_acc_l2: -0.0744
+         Episode_Reward/dof_vel_l2: -0.0363
+     Episode_Reward/dof_torques_l2: -0.0021
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0583
+     Episode_Reward/action_rate_l2: -0.2556
+         Curriculum/terrain_levels: 0.0556
+Metrics/base_velocity/error_vel_xy: 0.0884
+Metrics/base_velocity/error_vel_yaw: 0.1745
+      Episode_Termination/time_out: 2.2812
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 2097152
+                    Iteration time: 2.36s
+                        Total time: 38.69s
+                               ETA: 90.1s
+################################################################################
+                    [1m Learning iteration 12016/52000 
+                       Computation: 55362 steps/s (collection: 2.137s, learning 0.230s)
+               Value function loss: 0.0185
+                    Surrogate loss: -0.0158
+             Mean action noise std: 1.92
+                       Mean reward: 17.95
+               Mean episode length: 519.66
+Episode_Reward/track_lin_vel_xy_exp: 0.5234
+Episode_Reward/track_ang_vel_z_exp: 0.3404
+               Episode_Reward/gait: 0.1179
+      Episode_Reward/feet_air_time: 0.0090
+     Episode_Reward/feet_clearance: 0.2606
+           Episode_Reward/is_alive: 0.2642
+      Episode_Reward/is_terminated: 0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0180
+   Episode_Reward/body_orientation: -0.0111
+       Episode_Reward/body_lin_acc: -0.0040
+         Episode_Reward/feet_slide: -0.0205
+ Episode_Reward/undesired_contacts: -0.0074
+Episode_Reward/joint_position_normalization_amp: -0.1016
+         Episode_Reward/dof_acc_l2: -0.0777
+         Episode_Reward/dof_vel_l2: -0.0391
+     Episode_Reward/dof_torques_l2: -0.0022
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0620
+     Episode_Reward/action_rate_l2: -0.2720
+         Curriculum/terrain_levels: 0.0663
+Metrics/base_velocity/error_vel_xy: 0.0959
+Metrics/base_velocity/error_vel_yaw: 0.1785
+      Episode_Termination/time_out: 2.2500
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0000
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 2228224
+                    Iteration time: 2.37s
+                        Total time: 41.06s
+                               ETA: 95.6s
+################################################################################
+                    [1m Learning iteration 12017/52000 
+                       Computation: 53390 steps/s (collection: 2.222s, learning 0.233s)
+               Value function loss: 0.0211
+                    Surrogate loss: -0.0166
+             Mean action noise std: 1.92
+                       Mean reward: 18.77
+               Mean episode length: 551.84
+Episode_Reward/track_lin_vel_xy_exp: 0.5468
+Episode_Reward/track_ang_vel_z_exp: 0.3579
+               Episode_Reward/gait: 0.1207
+      Episode_Reward/feet_air_time: 0.0099
+     Episode_Reward/feet_clearance: 0.2761
+           Episode_Reward/is_alive: 0.2802
+      Episode_Reward/is_terminated: -0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0204
+   Episode_Reward/body_orientation: -0.0130
+       Episode_Reward/body_lin_acc: -0.0042
+         Episode_Reward/feet_slide: -0.0218
+ Episode_Reward/undesired_contacts: -0.0090
+Episode_Reward/joint_position_normalization_amp: -0.1092
+         Episode_Reward/dof_acc_l2: -0.0810
+         Episode_Reward/dof_vel_l2: -0.0410
+     Episode_Reward/dof_torques_l2: -0.0024
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.0951
+     Episode_Reward/action_rate_l2: -0.2876
+         Curriculum/terrain_levels: 0.0769
+Metrics/base_velocity/error_vel_xy: 0.1078
+Metrics/base_velocity/error_vel_yaw: 0.1924
+      Episode_Termination/time_out: 2.4688
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0312
+Episode_Termination/root_height_below_minimum: 0.0000
+--------------------------------------------------------------------------------
+                   Total timesteps: 2359296
+                    Iteration time: 2.45s
+                        Total time: 43.51s
+                               ETA: 101.3s
+################################################################################
+                    [1m Learning iteration 12018/52000 
+                       Computation: 55176 steps/s (collection: 2.146s, learning 0.230s)
+               Value function loss: 0.0224
+                    Surrogate loss: -0.0162
+             Mean action noise std: 1.92
+                       Mean reward: 20.24
+               Mean episode length: 580.34
+Episode_Reward/track_lin_vel_xy_exp: 0.5678
+Episode_Reward/track_ang_vel_z_exp: 0.3668
+               Episode_Reward/gait: 0.1415
+      Episode_Reward/feet_air_time: 0.0109
+     Episode_Reward/feet_clearance: 0.2846
+           Episode_Reward/is_alive: 0.2892
+      Episode_Reward/is_terminated: -0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0228
+   Episode_Reward/body_orientation: -0.0175
+       Episode_Reward/body_lin_acc: -0.0043
+         Episode_Reward/feet_slide: -0.0227
+ Episode_Reward/undesired_contacts: -0.0103
+Episode_Reward/joint_position_normalization_amp: -0.1161
+         Episode_Reward/dof_acc_l2: -0.0834
+         Episode_Reward/dof_vel_l2: -0.0432
+     Episode_Reward/dof_torques_l2: -0.0025
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.1553
+     Episode_Reward/action_rate_l2: -0.2980
+         Curriculum/terrain_levels: 0.0869
+Metrics/base_velocity/error_vel_xy: 0.1112
+Metrics/base_velocity/error_vel_yaw: 0.2054
+      Episode_Termination/time_out: 2.2812
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.0625
+Episode_Termination/root_height_below_minimum: 0.0625
+--------------------------------------------------------------------------------
+                   Total timesteps: 2490368
+                    Iteration time: 2.38s
+                        Total time: 45.89s
+                               ETA: 106.8s
+################################################################################
+                    [1m Learning iteration 12019/52000 
+                       Computation: 53405 steps/s (collection: 2.221s, learning 0.234s)
+               Value function loss: 0.0212
+                    Surrogate loss: -0.0168
+             Mean action noise std: 1.92
+                       Mean reward: 20.98
+               Mean episode length: 611.07
+Episode_Reward/track_lin_vel_xy_exp: 0.5969
+Episode_Reward/track_ang_vel_z_exp: 0.3823
+               Episode_Reward/gait: 0.1225
+      Episode_Reward/feet_air_time: 0.0095
+     Episode_Reward/feet_clearance: 0.2998
+           Episode_Reward/is_alive: 0.3048
+      Episode_Reward/is_terminated: -0.0000
+            Episode_Reward/base_vx: 0.0000
+       Episode_Reward/body_ang_vel: -0.0259
+   Episode_Reward/body_orientation: -0.0211
+       Episode_Reward/body_lin_acc: -0.0047
+         Episode_Reward/feet_slide: -0.0235
+ Episode_Reward/undesired_contacts: -0.0103
+Episode_Reward/joint_position_normalization_amp: -0.1197
+         Episode_Reward/dof_acc_l2: -0.0936
+         Episode_Reward/dof_vel_l2: -0.0457
+     Episode_Reward/dof_torques_l2: -0.0026
+   Episode_Reward/joint_pos_limits: -0.0000
+Episode_Reward/applied_torque_limits: -0.2930
+     Episode_Reward/action_rate_l2: -0.3140
+         Curriculum/terrain_levels: 0.0986
+Metrics/base_velocity/error_vel_xy: 0.1189
+Metrics/base_velocity/error_vel_yaw: 0.2187
+      Episode_Termination/time_out: 2.5312
+  Episode_Termination/base_contact: 0.0000
+Episode_Termination/bad_orientation: 0.1562
+Episode_Termination/root_height_below_minimum: 0.0312
+--------------------------------------------------------------------------------
+                   Total timesteps: 2621440
+                    Iteration time: 2.45s
+                        Total time: 48.34s

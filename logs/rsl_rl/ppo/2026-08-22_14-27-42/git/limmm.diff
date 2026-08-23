@@ -1,0 +1,27 @@
+--- git status ---
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	humanoid-description
+	logs/
+	outputs/
+	scripts/rsl_rl/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/assets/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/assets/config/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/terrain/__pycache__/
+	wandb/
+
+nothing added to commit but untracked files present (use "git add" to track) 
+
+
+--- git diff ---

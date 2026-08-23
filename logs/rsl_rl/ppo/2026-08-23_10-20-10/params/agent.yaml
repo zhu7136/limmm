@@ -1,0 +1,44 @@
+seed: 42
+device: cuda:0
+num_steps_per_env: 32
+max_iterations: 40000
+empirical_normalization: false
+policy:
+  class_name: ActorCritic
+  init_noise_std: 1.0
+  actor_hidden_dims:
+  - 512
+  - 256
+  - 128
+  critic_hidden_dims:
+  - 512
+  - 256
+  - 128
+  activation: elu
+algorithm:
+  class_name: PPO
+  value_loss_coef: 1.0
+  use_clipped_value_loss: true
+  clip_param: 0.2
+  entropy_coef: 0.01
+  num_learning_epochs: 10
+  num_mini_batches: 4
+  learning_rate: 5.0e-05
+  schedule: fixed
+  gamma: 0.99
+  lam: 0.95
+  desired_kl: 0.01
+  max_grad_norm: 1.0
+save_interval: 500
+experiment_name: ''
+run_name: ''
+logger: wandb
+neptune_project: humanoid-rl-isaaclab
+wandb_project: humanoid-rl-isaaclab
+resume: true
+load_run: 2026-08-22_23-40-21
+load_checkpoint: model_14000.pt
+entropy_decay: true
+entropy_decay_rate: 0.8
+entropy_decay_interval: 500
+entropy_decay_min: 0.001

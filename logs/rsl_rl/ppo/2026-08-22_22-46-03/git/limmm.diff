@@ -1,0 +1,98 @@
+--- git status ---
+On branch main
+Your branch is ahead of 'origin/main' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	humanoid-description
+	logs/
+	outputs/
+	scripts/rsl_rl/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/assets/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/assets/config/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/__pycache__/
+	source/limx_rl_forge/limx_rl_forge/tasks/locomotion/terrain/__pycache__/
+	wandb/
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py
+index fe2d5dc..dab10d2 100644
+--- a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py
++++ b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py
+@@ -943,4 +943,12 @@ def foot_clearance_reward(
+     foot_z_target_error = torch.square(asset.data.body_pos_w[:, asset_cfg.body_ids, 2] - target_height)
+     foot_velocity_tanh = torch.tanh(tanh_mult * torch.norm(asset.data.body_lin_vel_w[:, asset_cfg.body_ids, :2], dim=2))
+     reward = foot_z_target_error * foot_velocity_tanh
+-    return torch.exp(-torch.sum(reward, dim=1) / std)
+\ No newline at end of file
++    return torch.exp(-torch.sum(reward, dim=1) / std)
++
++
++def base_lin_vel_x(
++    env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
++) -> torch.Tensor:
++    """Root linear velocity x component in the asset's root frame (for logging, weight=0)."""
++    asset = env.scene[asset_cfg.name]
++    return asset.data.root_lin_vel_b[:, 0]
+\ No newline at end of file
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py
+index 324892b..011ad45 100644
+--- a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py
++++ b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py
+@@ -194,7 +194,7 @@ class VelocityCommandsCfg:
+         heading_control_stiffness=1.0 / math.pi,
+         debug_vis=True,
+         ranges=mdp.UniformVelocityCommandCfg.Ranges(
+-            lin_vel_x=(-0.5, 2.5), lin_vel_y=(-0.3, 0.3), ang_vel_z=(-1.0, 1.0), heading=(-math.pi, math.pi)
++            lin_vel_x=(-0.5, 2.0), lin_vel_y=(-0.3, 0.3), ang_vel_z=(-1.0, 1.0), heading=(-math.pi, math.pi)
+         ),
+     )
+ 
+@@ -349,7 +349,7 @@ class VelocityRewardsCfg:
+         func=mdp.feet_gait,
+         weight=0.5,
+         params={
+-            "period": 1.2,
++            "period": 0.667,
+             "offset": [0.0, 0.5],
+             "threshold": 0.55,
+             "command_name": "base_velocity",
+@@ -381,6 +381,12 @@ class VelocityRewardsCfg:
+     is_alive = RewTerm(func=mdp.is_alive, weight=1.0)
+     is_terminated = RewTerm(func=mdp.is_terminated, weight=-1.0)
+ 
++    # -- logging (weight=0, not affecting training) -- #
++    base_vx = RewTerm(
++        func=mdp.base_lin_vel_x,
++        weight=0.0,
++    )
++
+     # -- torso control -- #
+     body_ang_vel = RewTerm(
+         func=mdp.body_ang_vel_l2,
+@@ -570,7 +576,7 @@ class VelocityEventCfg:
+         mode="interval",
+         interval_range_s=(5.0, 15.0),
+         params={
+-            "velocity_range": {"x": (-2.5, 2.5), "y": (-0.5, 0.5)}, 
++            "velocity_range": {"x": (-2.0, 2.0), "y": (-0.5, 0.5)}, 
+             "asset_cfg": SceneEntityCfg("robot", body_names="base_link"),
+         },
+     )

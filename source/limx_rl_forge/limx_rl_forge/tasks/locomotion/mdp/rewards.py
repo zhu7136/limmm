@@ -944,3 +944,11 @@ def foot_clearance_reward(
     foot_velocity_tanh = torch.tanh(tanh_mult * torch.norm(asset.data.body_lin_vel_w[:, asset_cfg.body_ids, :2], dim=2))
     reward = foot_z_target_error * foot_velocity_tanh
     return torch.exp(-torch.sum(reward, dim=1) / std)
+
+
+def base_lin_vel_x(
+    env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
+) -> torch.Tensor:
+    """Root linear velocity x component in the asset's root frame (for logging, weight=0)."""
+    asset = env.scene[asset_cfg.name]
+    return asset.data.root_lin_vel_b[:, 0]

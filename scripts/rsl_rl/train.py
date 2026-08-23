@@ -155,6 +155,27 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
     # wrap around environment for rsl-rl
     env = LimxDrlEnvWrapper(env)
 
+    # add custom metrics logging to extras
+    class MetricsLoggingWrapper:
+        def __init__(self, env):
+            self.env = env
+            
+        def step(self, actions):
+            obs, rew, dones, extras = self.env.step(actions)
+            # log base_vx and command_vx to wandb via extras["log"]
+            robot = self.env.unwrapped.scene["robot"]
+            cmd = self.env.unwrapped.command_manager.get_command("base_velocity")
+            if "log" not in extras:
+                extras["log"] = {}
+            extras["log"]["Metrics/base_vx"] = robot.data.root_lin_vel_b[:, 0].mean().item()
+            extras["log"]["Metrics/command_vx"] = cmd[:, 0].mean().item()
+            return obs, rew, dones, extras
+            
+        def __getattr__(self, name):
+            return getattr(self.env, name)
+
+    env = MetricsLoggingWrapper(env)
+
     # create runner from rsl-rl
     runner = OnPolicyRunner(env, agent_cfg.to_dict(), log_dir=log_dir, device=agent_cfg.device)
     # write git state to logs

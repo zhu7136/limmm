@@ -20,6 +20,7 @@ import isaaclab.sim as sim_utils
 from limx_rl_forge.assets.config.HU_D04_01 import LIMX_HUD04_01_CFG_SERIAL as HU_D04_01  # isort: skip
 from limx_rl_forge.tasks.locomotion.terrain.rough import ROUGH_TERRAINS_CFG as ROUGH_TERRAINS_CFG
 import limx_rl_forge.tasks.locomotion.mdp as mdp
+from limx_rl_forge.tasks.locomotion.mdp.commands.custom_velocity_command import BiasedVelocityCommandCfg
 
 
 BODY_NAMES = [
@@ -185,7 +186,7 @@ class MySceneCfg(InteractiveSceneCfg):
 
 @configclass
 class VelocityCommandsCfg:
-    base_velocity = mdp.UniformVelocityCommandCfg(
+    base_velocity = BiasedVelocityCommandCfg(
         asset_name="robot",
         resampling_time_range=(10.0, 10.0),
         rel_standing_envs=0.1,
@@ -193,7 +194,10 @@ class VelocityCommandsCfg:
         heading_command=True,
         heading_control_stiffness=1.0 / math.pi,
         debug_vis=True,
-        ranges=mdp.UniformVelocityCommandCfg.Ranges(
+        high_speed_prob=0.7,
+        high_speed_range=(1.0, 2.0),
+        low_speed_range=(-0.5, 1.0),
+        ranges=BiasedVelocityCommandCfg.Ranges(
             lin_vel_x=(-0.5, 2.0), lin_vel_y=(-0.3, 0.3), ang_vel_z=(-1.0, 1.0), heading=(-math.pi, math.pi)
         ),
     )
@@ -329,10 +333,10 @@ class VelocityRewardsCfg:
     # -- Task rewards
     track_lin_vel_xy_exp = RewTerm(
         func=mdp.track_lin_vel_xy_exp, 
-        weight=2.5, 
+        weight=3.5, 
         params={
             "command_name": "base_velocity", 
-            "std": math.sqrt(0.09), 
+            "std": 0.4, 
         }
     )
     track_ang_vel_z_exp = RewTerm(
@@ -445,8 +449,8 @@ class VelocityRewardsCfg:
     dof_vel_l2 = RewTerm(func=mdp.joint_vel_l2, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-7.5e-4)
     dof_torques_l2 = RewTerm(func=mdp.joint_torques_l2, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-3.0e-7)
     joint_pos_limits = RewTerm(func=mdp.joint_pos_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-1.0)
-    applied_torque_limits = RewTerm(func=mdp.applied_torque_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-5.0e-2)
-    action_rate_l2 = RewTerm(func=mdp.action_rate_l2, weight=-5.0e-3)
+    applied_torque_limits = RewTerm(func=mdp.applied_torque_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-3.0e-2)
+    action_rate_l2 = RewTerm(func=mdp.action_rate_l2, weight=-3.0e-3)
 
     
 @configclass
@@ -571,15 +575,15 @@ class VelocityEventCfg:
     )
 
     # interval
-    push_robot = EventTerm(
-        func=mdp.push_by_setting_velocity,
-        mode="interval",
-        interval_range_s=(5.0, 15.0),
-        params={
-            "velocity_range": {"x": (-2.0, 2.0), "y": (-0.5, 0.5)}, 
-            "asset_cfg": SceneEntityCfg("robot", body_names="base_link"),
-        },
-    )
+    # push_robot = EventTerm(
+    #     func=mdp.push_by_setting_velocity,
+    #     mode="interval",
+    #     interval_range_s=(5.0, 15.0),
+    #     params={
+    #         "velocity_range": {"x": (1.0, 2.0), "y": (-0.5, 0.5)}, 
+    #         "asset_cfg": SceneEntityCfg("robot", body_names="base_link"),
+    #     },
+    # )
 
     random_inertias = EventTerm(
         func=mdp.randomize_rigid_body_inertia,
@@ -605,7 +609,7 @@ class VelocityEventCfg:
 @configclass
 class VelocityCurriculumCfg:
     """Curriculum terms for the MDP."""
-    terrain_levels = CurrTerm(func=mdp.terrain_levels_vel)
+    # terrain_levels = CurrTerm(func=mdp.terrain_levels_vel)  # disabled: fixed flat/low terrain for high-speed training
 
 
 @configclass
