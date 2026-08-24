@@ -159,16 +159,84 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
     class MetricsLoggingWrapper:
         def __init__(self, env):
             self.env = env
+            # pre-fetch torque limits (shape: [num_envs, num_joints])
+            robot = self.env.unwrapped.scene["robot"]
+            self._effort_limits = robot.root_physx_view.get_dof_max_forces().to(robot.device).clone()
+            # warmup: filter envs in first ~1.0s after reset
+            self._warmup_steps = int(1.0 / self.env.unwrapped.step_dt)
             
         def step(self, actions):
+            # capture pre-step high-speed command mask for correct fall attribution
+            raw_env = self.env.unwrapped
+            robot = raw_env.scene["robot"]
+            command_vx_pre = raw_env.command_manager.get_command("base_velocity")[:, 0].clone()
+            
             obs, rew, dones, extras = self.env.step(actions)
-            # log base_vx and command_vx to wandb via extras["log"]
-            robot = self.env.unwrapped.scene["robot"]
-            cmd = self.env.unwrapped.command_manager.get_command("base_velocity")
+            
+            # post-step data
+            base_vx = robot.data.root_lin_vel_b[:, 0]
+            command_vx = command_vx_pre  # use pre-step command for consistency
+            
             if "log" not in extras:
                 extras["log"] = {}
-            extras["log"]["Metrics/base_vx"] = robot.data.root_lin_vel_b[:, 0].mean().item()
-            extras["log"]["Metrics/command_vx"] = cmd[:, 0].mean().item()
+            
+            # global metrics
+            extras["log"]["Metrics/base_vx"] = base_vx.mean().item()
+            extras["log"]["Metrics/command_vx"] = command_vx.mean().item()
+            
+            # high-speed bucket metrics
+            import torch
+            
+            # termination/fall detection
+            timeouts = extras.get("time_outs", torch.zeros_like(dones, dtype=torch.bool, device=dones.device)).bool()
+            falls = dones.bool() & ~timeouts
+            
+            # warmup filter: exclude envs recently reset
+            valid = raw_env.episode_length_buf > self._warmup_steps
+            
+            for threshold in (2.0, 2.3, 2.5, 2.6, 2.7, 2.8):
+                mask = (command_vx > threshold) & valid
+                prefix = f"Metrics/high_speed_gt_{str(threshold).replace('.', '_')}"
+                
+                # sample fraction & count
+                extras["log"][f"{prefix}/sample_fraction"] = mask.float().mean().item()
+                extras["log"][f"{prefix}/sample_count"] = mask.sum().item()
+                
+                if mask.any():
+                    cmd_h = command_vx[mask]
+                    actual_h = base_vx[mask]
+                    abs_error = (actual_h - cmd_h).abs()
+                    
+                    extras["log"][f"{prefix}/command_vx"] = cmd_h.mean().item()
+                    extras["log"][f"{prefix}/base_vx"] = actual_h.mean().item()
+                    extras["log"][f"{prefix}/error_vx"] = abs_error.mean().item()
+                    extras["log"][f"{prefix}/undertracking_vx"] = (cmd_h - actual_h).clamp_min(0).mean().item()
+                    extras["log"][f"{prefix}/success_rate_0p2"] = (abs_error < 0.2).float().mean().item()
+                    extras["log"][f"{prefix}/success_rate_0p25"] = (abs_error < 0.25).float().mean().item()
+                    
+                    # torque saturation
+                    torque = robot.data.applied_torque[mask].abs()
+                    effort_limit = self._effort_limits[mask].abs().clamp_min(1e-6)
+                    torque_ratio = torque / effort_limit
+                    saturated = torque_ratio >= 0.95
+                    
+                    extras["log"][f"{prefix}/joint_torque_sat_rate"] = saturated.float().mean().item()
+                    extras["log"][f"{prefix}/env_torque_sat_rate"] = saturated.any(dim=1).float().mean().item()
+                    extras["log"][f"{prefix}/max_torque_ratio"] = torque_ratio.max().item()
+                    
+                    # termination / fall rates (use PRE-STEP high-speed mask)
+                    high_mask_pre = command_vx_pre > threshold
+                    high_done = dones.bool() & high_mask_pre
+                    high_fall = falls & high_mask_pre
+                    
+                    extras["log"][f"{prefix}/done_count"] = high_done.sum().item()
+                    extras["log"][f"{prefix}/fall_count"] = high_fall.sum().item()
+                    
+                    if high_done.any():
+                        extras["log"][f"{prefix}/fall_rate_on_done"] = (
+                            high_fall.sum().float() / high_done.sum()
+                        ).item()
+            
             return obs, rew, dones, extras
             
         def __getattr__(self, name):
