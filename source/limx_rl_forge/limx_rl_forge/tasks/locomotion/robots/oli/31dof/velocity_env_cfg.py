@@ -194,11 +194,11 @@ class VelocityCommandsCfg:
         heading_command=True,
         heading_control_stiffness=1.0 / math.pi,
         debug_vis=True,
-        high_speed_prob=0.8,
-        high_speed_range=(1.7, 2.85),
+        high_speed_prob=0.7,
+        high_speed_range=(2.4, 3.0),
         low_speed_range=(-0.5, 1.0),
         ranges=BiasedVelocityCommandCfg.Ranges(
-            lin_vel_x=(-0.5, 2.85), lin_vel_y=(-0.15, 0.15), ang_vel_z=(-0.5, 0.5), heading=(-math.pi, math.pi)
+            lin_vel_x=(-0.5, 3.0), lin_vel_y=(-0.05, 0.05), ang_vel_z=(-0.10, 0.10), heading=(-math.pi, math.pi)
         ),
     )
 
