@@ -195,7 +195,7 @@ class VelocityCommandsCfg:
         heading_control_stiffness=1.0 / math.pi,
         debug_vis=True,
         high_speed_prob=0.7,
-        high_speed_range=(2.4, 3.0),
+        high_speed_range=(2.6, 3.0),
         low_speed_range=(-0.5, 1.0),
         ranges=BiasedVelocityCommandCfg.Ranges(
             lin_vel_x=(-0.5, 3.0), lin_vel_y=(-0.05, 0.05), ang_vel_z=(-0.10, 0.10), heading=(-math.pi, math.pi)
@@ -357,7 +357,7 @@ class VelocityRewardsCfg:
             "offset": [0.0, 0.5],
             "threshold": 0.55,
             "command_name": "base_velocity",
-            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*ankle_roll.*"),
+            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["left_ankle_roll_link", "right_ankle_roll_link"], preserve_order=True),
         },
     )
 
@@ -365,7 +365,7 @@ class VelocityRewardsCfg:
         func=mdp.feet_air_time_positive_biped,
         weight=0.5,
         params={
-            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*ankle_roll.*"),
+            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["left_ankle_roll_link", "right_ankle_roll_link"], preserve_order=True),
             "command_name": "base_velocity",
             "threshold": 0.5,
         },
@@ -378,12 +378,12 @@ class VelocityRewardsCfg:
             "std": 0.05,
             "tanh_mult": 2.0,
             "target_height": 0.10,
-            "asset_cfg": SceneEntityCfg("robot", body_names=".*ankle_roll.*"),
+            "asset_cfg": SceneEntityCfg("robot", body_names=["left_ankle_roll_link", "right_ankle_roll_link"], preserve_order=True),
         },
     )
     # -- termination -- #
     is_alive = RewTerm(func=mdp.is_alive, weight=1.0)
-    is_terminated = RewTerm(func=mdp.is_terminated, weight=-1.0)
+    is_terminated = RewTerm(func=mdp.is_terminated, weight=-50.0)
 
     # -- logging (weight=0, not affecting training) -- #
     base_vx = RewTerm(
@@ -420,8 +420,8 @@ class VelocityRewardsCfg:
         func=mdp.feet_slide, 
         weight=-0.1, 
         params={
-            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*ankle_roll.*"), 
-            "asset_cfg": SceneEntityCfg("robot", body_names=".*ankle_roll.*")
+            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["left_ankle_roll_link", "right_ankle_roll_link"], preserve_order=True), 
+            "asset_cfg": SceneEntityCfg("robot", body_names=["left_ankle_roll_link", "right_ankle_roll_link"], preserve_order=True)
         }
     )
     undesired_contacts = RewTerm(
@@ -444,7 +444,7 @@ class VelocityRewardsCfg:
         # },
     )
 
-    # -- energy
+# -- energy
     dof_acc_l2 = RewTerm(func=mdp.joint_acc_l2, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-5.0e-7)
     dof_vel_l2 = RewTerm(func=mdp.joint_vel_l2, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-7.5e-4)
     dof_torques_l2 = RewTerm(func=mdp.joint_torques_l2, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-3.0e-7)
@@ -452,6 +452,81 @@ class VelocityRewardsCfg:
     applied_torque_limits = RewTerm(func=mdp.applied_torque_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-3.0e-2)
     action_rate_l2 = RewTerm(func=mdp.action_rate_l2, weight=-3.0e-3)
 
+    # -- leg collision prevention -- #
+    # 1. 几何接近惩罚：监控左右脚踝、膝关节在机器人局部坐标系 Y 轴的间距
+    # 左脚在左侧 -> left_y - right_y > 0，惩罚间距过小
+    leg_sep_ankle = RewTerm(
+        func=mdp.leg_separation_penalty,
+        weight=-2.0,
+        params={
+            "asset_cfg": SceneEntityCfg("robot", body_names=["left_ankle_roll_link", "right_ankle_roll_link"], preserve_order=True),
+            "min_separation": 0.08,
+        },
+    )
+    leg_sep_knee = RewTerm(
+        func=mdp.leg_separation_penalty,
+        weight=-1.0,
+        params={
+            "asset_cfg": SceneEntityCfg("robot", body_names=["left_knee_link", "right_knee_link"], preserve_order=True),
+            "min_separation": 0.10,
+        },
+    )
+
+    # 2. 真正的 pairwise contact 惩罚：只检测左脚/左小腿 <-> 右脚/右小腿 的接触力
+    # DISABLED: current implementation uses net_forces_w, not true pairwise contact detection
+    leg_pairwise_contact = RewTerm(
+        func=mdp.leg_pairwise_contact_penalty,
+        weight=0.0,
+        params={
+            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["left_ankle_roll_link", "left_ankle_pitch_link", "right_ankle_roll_link", "right_ankle_pitch_link"], preserve_order=True),
+            "force_threshold": 20.0,
+            "left_body_names": ["left_ankle_roll_link", "left_ankle_pitch_link"],
+            "right_body_names": ["right_ankle_roll_link", "right_ankle_pitch_link"],
+        },
+    )
+
+# 3. 镜像对称损失：鼓励左右对称
+    # DISABLED: current implementation compares same-timestep left/right joints, breaks alternating gait
+    mirror_symmetry = RewTerm(
+        func=mdp.mirror_symmetry_loss,
+        weight=0.0,
+        params={
+            "joint_names": JOINT_NAMES,
+        },
+    )
+
+    # Logging: track inter-leg collision count (weight=0, only for logging)
+    inter_leg_collision_count = RewTerm(
+        func=mdp.inter_leg_collision_count,
+        weight=0.0,
+        params={
+            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["left_ankle_roll_link", "left_ankle_pitch_link", "right_ankle_roll_link", "right_ankle_pitch_link"], preserve_order=True),
+            "force_threshold": 20.0,
+            "left_body_names": ["left_ankle_roll_link", "left_ankle_pitch_link"],
+            "right_body_names": ["right_ankle_roll_link", "right_ankle_pitch_link"],
+        },
+    )
+
+    # Dense near-fall signals
+    # 横向速度惩罚：大的横向速度通常预示跌倒
+    base_lin_vel_y_penalty = RewTerm(
+        func=mdp.base_lin_vel_y_l2,
+        weight=-0.5,
+    )
+    # Roll/Yaw 姿态惩罚：roll过大或yaw偏移大通常预示跌倒
+    base_orientation_roll_yaw = RewTerm(
+        func=mdp.base_orientation_roll_yaw_l2,
+        weight=-0.2,
+    )
+    # 腿间最近距离惩罚：腿快碰撞时预警
+    leg_min_distance_penalty = RewTerm(
+        func=mdp.leg_min_distance_penalty,
+        weight=-1.0,
+        params={
+            "asset_cfg": SceneEntityCfg("robot", body_names=["left_ankle_roll_link", "left_knee_link", "right_ankle_roll_link", "right_knee_link"], preserve_order=True),
+            "min_distance": 0.12,
+        },
+    )
     
 @configclass
 class VelocityTerminationsCfg:
@@ -477,6 +552,18 @@ class VelocityTerminationsCfg:
         params={"minimum_height": 0.4},
     )
 
+    # Terminate if left/right legs have continuous contact (inter-leg collision)
+    inter_leg_collision = DoneTerm(
+        func=mdp.inter_leg_collision_termination,
+        params={
+            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["left_ankle_roll_link", "left_ankle_pitch_link", "right_ankle_roll_link", "right_ankle_pitch_link"], preserve_order=True),
+            "force_threshold": 20.0,
+            "left_body_names": ["left_ankle_roll_link", "left_ankle_pitch_link"],
+            "right_body_names": ["right_ankle_roll_link", "right_ankle_pitch_link"],
+            "consecutive_steps": 3,
+        },
+    )
+
 
 @configclass
 class VelocityEventCfg:
@@ -490,14 +577,14 @@ class VelocityEventCfg:
             "asset_cfg": SceneEntityCfg("robot", body_names=".*"),
             "static_friction_range": (0.2, 1.5),
             "dynamic_friction_range": (0.1, 1.2),
-            "restitution_range": (0.0, 1.0),
+            "restitution_range": (0.0, 0.1),
             "num_buckets": 64,
             # "make_consistent": True,
         },
     )
 
     actuator_gains = EventTerm(
-        func=mdp.randomize_actuator_gains,
+        func=mdp.randomize_actuator_gains_paired,
         mode="reset",
         params={
             "asset_cfg": SceneEntityCfg("robot", joint_names=".*"),
@@ -560,7 +647,7 @@ class VelocityEventCfg:
         params={
             "asset_cfg": SceneEntityCfg("robot", body_names="waist_pitch_link"),
             "x_range": (-0.1, 0.1),
-            "y_range": (-0.08, 0.08),
+            "y_range": (-0.02, 0.02),
             "z_range": (-0.1, 0.1),
         },
     )
@@ -631,7 +718,7 @@ class VelocityEnvCfg(ManagerBasedRLEnvCfg):
         """Post initialization."""
         # general settings
         self.decimation = 5
-        self.episode_length_s = 20.0
+        self.episode_length_s = 60.0
         # simulation settings
         self.sim.dt = 0.002
         self.sim.render_interval = self.decimation

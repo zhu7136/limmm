@@ -952,3 +952,228 @@ def base_lin_vel_x(
     """Root linear velocity x component in the asset's root frame (for logging, weight=0)."""
     asset = env.scene[asset_cfg.name]
     return asset.data.root_lin_vel_b[:, 0]
+
+
+def leg_separation_penalty(
+    env: ManagerBasedRLEnv,
+    asset_cfg: SceneEntityCfg,
+    min_separation: float,
+) -> torch.Tensor:
+    """Penalize when left and right legs get too close in robot's local Y axis.
+    
+    In robot's local frame, left leg should have positive Y, right leg negative Y.
+    sep = left_y - right_y should be > min_separation.
+    """
+    asset: RigidObject = env.scene[asset_cfg.name]
+    
+    left_idx = asset_cfg.body_ids[0]
+    right_idx = asset_cfg.body_ids[1]
+    
+    base_quat = asset.data.root_quat_w
+    heading_aligned = math_utils.yaw_quat(base_quat)
+    
+    left_pos = math_utils.quat_rotate_inverse(heading_aligned, asset.data.body_pos_w[:, left_idx])
+    right_pos = math_utils.quat_rotate_inverse(heading_aligned, asset.data.body_pos_w[:, right_idx])
+    
+    sep = left_pos[:, 1] - right_pos[:, 1]
+    violation = torch.clamp(min_separation - sep, min=0.0)
+    return violation
+
+
+def leg_pairwise_contact_penalty(
+    env: ManagerBasedRLEnv,
+    sensor_cfg: SceneEntityCfg,
+    force_threshold: float,
+    left_body_names: list[str],
+    right_body_names: list[str],
+) -> torch.Tensor:
+    """Penalize contact between left and right leg bodies (pairwise).
+    
+    Uses filtered contact pair forces from force_matrix_w.
+    Falls back to net_forces_w heuristic if force_matrix_w not available.
+    Only checks left leg bodies vs right leg bodies, not ground contacts.
+    """
+    contact_sensor: ContactSensor = env.scene.sensors[sensor_cfg.name]
+    
+    # Get body indices for left and right leg bodies
+    asset: RigidObject = env.scene["robot"]
+    left_indices = [asset.data.body_names.index(name) for name in left_body_names]
+    right_indices = [asset.data.body_names.index(name) for name in right_body_names]
+    
+    # Use force_matrix_w for true pairwise contact forces [num_envs, num_bodies, num_bodies, 3]
+    force_matrix = contact_sensor.data.force_matrix_w
+    
+    penalty = torch.zeros(env.num_envs, device=env.device, dtype=torch.float)
+    
+    if force_matrix is not None:
+        # Check pairwise: each left body vs each right body using force_matrix
+        for l_idx in left_indices:
+            for r_idx in right_indices:
+                # force_matrix[:, l_idx, r_idx] gives force on l_idx from r_idx
+                pair_force = torch.norm(force_matrix[:, l_idx, r_idx], dim=-1)
+                pair_force_rev = torch.norm(force_matrix[:, r_idx, l_idx], dim=-1)
+                # Sum both directions for total contact force between the pair
+                total_pair_force = pair_force + pair_force_rev
+                
+                # Penalize if contact force exceeds threshold
+                contact_mask = total_pair_force > force_threshold
+                penalty += contact_mask.float() * total_pair_force
+    else:
+        # Fallback: use net_forces_w (less accurate)
+        net_forces = contact_sensor.data.net_forces_w
+        if net_forces is not None:
+            for l_idx in left_indices:
+                for r_idx in right_indices:
+                    l_force = torch.norm(net_forces[:, l_idx], dim=-1)
+                    r_force = torch.norm(net_forces[:, r_idx], dim=-1)
+                    both_contact = (l_force > force_threshold) & (r_force > force_threshold)
+                    penalty += both_contact.float() * (l_force + r_force)
+    
+    return penalty
+
+
+def mirror_symmetry_loss(
+    env: ManagerBasedRLEnv,
+    joint_names: list[str],
+) -> torch.Tensor:
+    """Mirror symmetry loss: encourage left/right joint symmetry.
+    
+    For a symmetric gait, left and right joints should be mirrored.
+    Hip/ankle roll and yaw have opposite signs.
+    """
+    asset = env.scene["robot"]
+    
+    # Build mirror mapping for joint names
+    # Left joints -> corresponding right joints with sign flips
+    mirror_map = {}
+    sign_flip = {}
+    
+    for i, name in enumerate(joint_names):
+        if name.startswith("left_"):
+            right_name = name.replace("left_", "right_")
+            if right_name in joint_names:
+                mirror_map[i] = joint_names.index(right_name)
+                # hip/ankle roll and yaw flip sign
+                if "roll" in name or "yaw" in name:
+                    sign_flip[i] = -1.0
+                else:
+                    sign_flip[i] = 1.0
+        elif name.startswith("right_"):
+            left_name = name.replace("right_", "left_")
+            if left_name in joint_names:
+                mirror_map[i] = joint_names.index(left_name)
+                if "roll" in name or "yaw" in name:
+                    sign_flip[i] = -1.0
+                else:
+                    sign_flip[i] = 1.0
+        else:
+            mirror_map[i] = i
+            sign_flip[i] = 1.0
+    
+    joint_pos = asset.data.joint_pos
+    loss = torch.zeros(env.num_envs, device=env.device, dtype=torch.float)
+    
+    for i, j in mirror_map.items():
+        if i < j:  # Only compute once per pair
+            expected = sign_flip[i] * joint_pos[:, j]
+            loss += torch.square(joint_pos[:, i] - expected)
+    
+    return loss
+
+
+def inter_leg_collision_count(
+    env: ManagerBasedRLEnv,
+    sensor_cfg: SceneEntityCfg,
+    force_threshold: float,
+    left_body_names: list[str],
+    right_body_names: list[str],
+) -> torch.Tensor:
+    """Count inter-leg collisions per step (for logging, weight=0).
+    
+    Uses force_matrix_w for true pairwise contact detection.
+    Falls back to net_forces_w heuristic if force_matrix_w not available.
+    Returns count of left-right body pairs in contact above threshold.
+    """
+    contact_sensor: ContactSensor = env.scene.sensors[sensor_cfg.name]
+    
+    asset: RigidObject = env.scene["robot"]
+    left_indices = [asset.data.body_names.index(name) for name in left_body_names]
+    right_indices = [asset.data.body_names.index(name) for name in right_body_names]
+    
+    force_matrix = contact_sensor.data.force_matrix_w
+    
+    count = torch.zeros(env.num_envs, device=env.device, dtype=torch.float)
+    
+    if force_matrix is not None:
+        for l_idx in left_indices:
+            for r_idx in right_indices:
+                pair_force = torch.norm(force_matrix[:, l_idx, r_idx], dim=-1)
+                pair_force_rev = torch.norm(force_matrix[:, r_idx, l_idx], dim=-1)
+                total_pair_force = pair_force + pair_force_rev
+                count += (total_pair_force > force_threshold).float()
+    else:
+        # Fallback to net_forces_w
+        net_forces = contact_sensor.data.net_forces_w
+        if net_forces is not None:
+            for l_idx in left_indices:
+                for r_idx in right_indices:
+                    l_force = torch.norm(net_forces[:, l_idx], dim=-1)
+                    r_force = torch.norm(net_forces[:, r_idx], dim=-1)
+                    count += ((l_force > force_threshold) & (r_force > force_threshold)).float()
+        else:
+            # No contact data available
+            pass
+    
+    return count
+
+
+def base_lin_vel_y_l2(
+    env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
+) -> torch.Tensor:
+    """Penalize lateral (y) velocity in base frame.
+    
+    High lateral velocity often indicates instability / near-fall.
+    """
+    asset = env.scene[asset_cfg.name]
+    return torch.square(asset.data.root_lin_vel_b[:, 1])
+
+
+def base_orientation_roll_yaw_l2(
+    env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
+) -> torch.Tensor:
+    """Penalize roll and yaw orientation deviation from upright.
+    
+    Large roll or yaw angle indicates near-fall state.
+    """
+    asset = env.scene[asset_cfg.name]
+    roll, pitch, yaw = math_utils.euler_xyz_from_quat(asset.data.root_quat_w)
+    return torch.square(roll) + torch.square(yaw)
+
+
+def leg_min_distance_penalty(
+    env: ManagerBasedRLEnv,
+    asset_cfg: SceneEntityCfg,
+    min_distance: float,
+) -> torch.Tensor:
+    """Penalize when any left-right leg body pair gets too close.
+    
+    Computes minimum distance between all left-right body pairs in world frame.
+    Acts as early warning for inter-leg collision.
+    """
+    asset: RigidObject = env.scene[asset_cfg.name]
+    
+    # Expect 4 bodies: [left_ankle, left_knee, right_ankle, right_knee]
+    # with preserve_order=True, indices 0,1 are left, 2,3 are right
+    left_indices = asset_cfg.body_ids[:2]
+    right_indices = asset_cfg.body_ids[2:]
+    
+    min_dist = torch.full((env.num_envs,), float('inf'), device=env.device, dtype=torch.float)
+    
+    for l_idx in left_indices:
+        for r_idx in right_indices:
+            dist = torch.norm(asset.data.body_pos_w[:, l_idx] - asset.data.body_pos_w[:, r_idx], dim=-1)
+            min_dist = torch.minimum(min_dist, dist)
+    
+    # Penalty when distance < min_distance
+    violation = torch.clamp(min_distance - min_dist, min=0.0)
+    return violation
