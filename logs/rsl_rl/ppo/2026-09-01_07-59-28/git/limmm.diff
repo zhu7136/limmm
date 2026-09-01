@@ -1,0 +1,930 @@
+--- git status ---
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	typechange: humanoid-description (new commits)
+	modified:   scripts/rsl_rl/__pycache__/cli_args.cpython-310.pyc
+	modified:   scripts/rsl_rl/__pycache__/wrappers.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/__pycache__/__init__.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/assets/__pycache__/__init__.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/assets/config/__pycache__/HU_D04_01.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/__pycache__/__init__.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/__pycache__/__init__.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/__pycache__/__init__.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/__pycache__/rsl_rl_ppo_cfg.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/rsl_rl_ppo_cfg.py
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/__init__.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/curriculums.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/events.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/gait.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/observations.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/rewards.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/terminations.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/commands/__pycache__/custom_velocity_command.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/events.py
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/terminations.py
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/__pycache__/__init__.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/__pycache__/__init__.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/__pycache__/velocity_env_cfg.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/__pycache__/__init__.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/terrain/__pycache__/__init__.cpython-310.pyc
+	modified:   source/limx_rl_forge/limx_rl_forge/tasks/locomotion/terrain/__pycache__/rough.cpython-310.pyc
+	modified:   wandb/debug-internal.log
+	modified:   wandb/debug.log
+	modified:   wandb/latest-run
+
+no changes added to commit (use "git add" and/or "git commit -a") 
+
+
+--- git diff ---
+diff --git a/humanoid-description b/humanoid-description
+deleted file mode 120000
+index 4e9c88a..0000000
+--- a/humanoid-description
++++ /dev/null
+@@ -1 +0,0 @@
+-/root/code/humanoid-description
+\ No newline at end of file
+diff --git a/humanoid-description b/humanoid-description
+new file mode 160000
+index 0000000..02adfbd
+--- /dev/null
++++ b/humanoid-description
+@@ -0,0 +1 @@
++Subproject commit 02adfbdd206a56e684a60fd855f49aa214b4000c
+diff --git a/scripts/rsl_rl/__pycache__/cli_args.cpython-310.pyc b/scripts/rsl_rl/__pycache__/cli_args.cpython-310.pyc
+index e81a124..ea06f76 100644
+Binary files a/scripts/rsl_rl/__pycache__/cli_args.cpython-310.pyc and b/scripts/rsl_rl/__pycache__/cli_args.cpython-310.pyc differ
+diff --git a/scripts/rsl_rl/__pycache__/wrappers.cpython-310.pyc b/scripts/rsl_rl/__pycache__/wrappers.cpython-310.pyc
+index 89edd93..e515570 100644
+Binary files a/scripts/rsl_rl/__pycache__/wrappers.cpython-310.pyc and b/scripts/rsl_rl/__pycache__/wrappers.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/__pycache__/__init__.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/__pycache__/__init__.cpython-310.pyc
+index 5386347..5ad80fd 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/__pycache__/__init__.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/assets/__pycache__/__init__.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/assets/__pycache__/__init__.cpython-310.pyc
+index bcaea36..53256da 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/assets/__pycache__/__init__.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/assets/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/assets/config/__pycache__/HU_D04_01.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/assets/config/__pycache__/HU_D04_01.cpython-310.pyc
+index 4cd7bfc..9cf9640 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/assets/config/__pycache__/HU_D04_01.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/assets/config/__pycache__/HU_D04_01.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/__pycache__/__init__.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/__pycache__/__init__.cpython-310.pyc
+index 0cedb64..b397ba8 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/__pycache__/__init__.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/__pycache__/__init__.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/__pycache__/__init__.cpython-310.pyc
+index cbae7c9..7771882 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/__pycache__/__init__.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/__pycache__/__init__.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/__pycache__/__init__.cpython-310.pyc
+index 0bf1570..0ef7cfe 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/__pycache__/__init__.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/__pycache__/rsl_rl_ppo_cfg.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/__pycache__/rsl_rl_ppo_cfg.cpython-310.pyc
+index 0d05039..703d789 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/__pycache__/rsl_rl_ppo_cfg.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/__pycache__/rsl_rl_ppo_cfg.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/rsl_rl_ppo_cfg.py b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/rsl_rl_ppo_cfg.py
+index cdafc32..17239e9 100644
+--- a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/rsl_rl_ppo_cfg.py
++++ b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/agents/rsl_rl_ppo_cfg.py
+@@ -9,8 +9,8 @@ from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlPpoActorCriticCfg, R
+ @configclass
+ class PPORunnerCfg(RslRlOnPolicyRunnerCfg):
+     num_steps_per_env = 32
+-    max_iterations = 40000
+-    save_interval = 500
++    max_iterations = 300
++    save_interval = 50
+     experiment_name = ""  # same as task name
+     empirical_normalization = False
+ 
+@@ -33,9 +33,9 @@ class PPORunnerCfg(RslRlOnPolicyRunnerCfg):
+         entropy_coef=0.01,
+         num_learning_epochs=10,
+         num_mini_batches=4,
+-        learning_rate=2e-5,
++        learning_rate=2e-6,
+         schedule="fixed",
+-        gamma=0.99,
++        gamma=0.995,
+         lam=0.95,
+         desired_kl=0.01,
+         max_grad_norm=1.0,
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/__init__.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/__init__.cpython-310.pyc
+index 7262bc4..e491464 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/__init__.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/curriculums.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/curriculums.cpython-310.pyc
+index 200608d..b914af6 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/curriculums.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/curriculums.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/events.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/events.cpython-310.pyc
+index 9e7fdbc..de3ac43 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/events.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/events.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/gait.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/gait.cpython-310.pyc
+index 02b7bf4..2a572a1 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/gait.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/gait.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/observations.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/observations.cpython-310.pyc
+index 77dae29..c3a1d9a 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/observations.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/observations.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/rewards.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/rewards.cpython-310.pyc
+index 0b1f9cb..6543729 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/rewards.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/rewards.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/terminations.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/terminations.cpython-310.pyc
+index 81ac6f7..1ca0c80 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/terminations.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/__pycache__/terminations.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/commands/__pycache__/custom_velocity_command.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/commands/__pycache__/custom_velocity_command.cpython-310.pyc
+index b21b17c..9329576 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/commands/__pycache__/custom_velocity_command.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/commands/__pycache__/custom_velocity_command.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/events.py b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/events.py
+index 9109322..67e89c6 100644
+--- a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/events.py
++++ b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/events.py
+@@ -8,12 +8,14 @@ import random
+ 
+ import isaaclab.utils.math as math_utils
+ from isaaclab.assets import Articulation, RigidObject
++from isaaclab.actuators import ImplicitActuator
+ from isaaclab.managers import SceneEntityCfg
+ from isaaclab.sensors import RayCaster
+ 
+ if TYPE_CHECKING:
+     from isaaclab.envs import ManagerBasedEnv
+ 
++
+ def randomize_rigid_body_centroid(
+     env: ManagerBasedEnv,
+     env_ids: torch.Tensor | None,
+@@ -45,6 +47,7 @@ def randomize_rigid_body_centroid(
+     
+     asset.root_physx_view.set_coms(centroid, env_ids)
+ 
++
+ def randomize_rigid_body_inertia(
+     env: ManagerBasedEnv,
+     env_ids: torch.Tensor | None,
+@@ -72,3 +75,185 @@ def randomize_rigid_body_inertia(
+     inertias[env_ids[:, None], body_ids] *= math_utils.sample_uniform(scale[0], scale[1], size, device="cpu")
+     
+     asset.root_physx_view.set_inertias(inertias, env_ids)
++
++
++def _randomize_prop_by_op(
++    data: torch.Tensor,
++    params: tuple[float, float],
++    dim_0_ids: torch.Tensor | slice | None,
++    dim_1_ids: torch.Tensor | slice | None,
++    operation: Literal["add", "scale", "abs"],
++    distribution: Literal["uniform", "log_uniform", "gaussian"],
++) -> torch.Tensor:
++    """Helper function to randomize a property by operation and distribution."""
++    # Sample random values
++    if distribution == "uniform":
++        rand_vals = math_utils.sample_uniform(params[0], params[1], data[dim_0_ids, dim_1_ids].shape, device=data.device)
++    elif distribution == "log_uniform":
++        rand_vals = torch.exp(math_utils.sample_uniform(torch.log(torch.tensor(params[0])), torch.log(torch.tensor(params[1])), data[dim_0_ids, dim_1_ids].shape, device=data.device))
++    elif distribution == "gaussian":
++        mean, std = params
++        rand_vals = torch.normal(mean, std, data[dim_0_ids, dim_1_ids].shape, device=data.device)
++    else:
++        raise ValueError(f"Unknown distribution: {distribution}")
++
++    # Apply operation
++    if operation == "add":
++        data[dim_0_ids, dim_1_ids] += rand_vals
++    elif operation == "scale":
++        data[dim_0_ids, dim_1_ids] *= rand_vals
++    elif operation == "abs":
++        data[dim_0_ids, dim_1_ids] = rand_vals
++    else:
++        raise ValueError(f"Unknown operation: {operation}")
++    
++    return data
++
++
++def randomize_actuator_gains_paired(
++    env: ManagerBasedEnv,
++    env_ids: torch.Tensor | None,
++    asset_cfg: SceneEntityCfg,
++    stiffness_distribution_params: tuple[float, float] | None = None,
++    damping_distribution_params: tuple[float, float] | None = None,
++    operation: Literal["add", "scale", "abs"] = "abs",
++    distribution: Literal["uniform", "log_uniform", "gaussian"] = "uniform",
++    joint_pairs: list[tuple[str, str]] | None = None,
++):
++    """Randomize actuator gains with paired left/right symmetry.
++    
++    For each (left_joint, right_joint) pair, sample ONE random value and apply 
++    to both joints. This maintains left/right symmetry in actuator gains.
++    
++    Args:
++        joint_pairs: List of (left_joint_name, right_joint_name) tuples. 
++                     If None, attempts to auto-detect from "left_*" and "right_*" naming.
++    """
++    asset: Articulation = env.scene[asset_cfg.name]
++
++    if env_ids is None:
++        env_ids = torch.arange(env.scene.num_envs, device=asset.device)
++
++    # Get all joint names and build name->index mapping
++    joint_names = asset.joint_names
++    name_to_idx = {name: i for i, name in enumerate(joint_names)}
++
++    # Determine joint pairs
++    if joint_pairs is None:
++        # Auto-detect left/right pairs
++        left_names = [n for n in joint_names if n.startswith("left_")]
++        right_names = [n for n in joint_names if n.startswith("right_")]
++        joint_pairs = []
++        for ln in left_names:
++            rn = ln.replace("left_", "right_")
++            if rn in right_names:
++                joint_pairs.append((ln, rn))
++
++    # Loop through actuators and randomize gains
++    for actuator in asset.actuators.values():
++        # Get actuator joint indices
++        if isinstance(actuator.joint_indices, slice):
++            actuator_joint_ids = list(range(*actuator.joint_indices.indices(asset.num_joints)))
++        else:
++            actuator_joint_ids = list(actuator.joint_indices)
++
++        # Filter to only joints in asset_cfg
++        if asset_cfg.joint_ids != slice(None):
++            asset_joint_ids = set(asset_cfg.joint_ids if isinstance(asset_cfg.joint_ids, list) else [asset_cfg.joint_ids])
++            actuator_joint_ids = [j for j in actuator_joint_ids if j in asset_joint_ids]
++
++        if not actuator_joint_ids:
++            continue
++
++        # Map joint indices to names for this actuator
++        actuator_joint_names = [joint_names[j] for j in actuator_joint_ids]
++
++        # Randomize stiffness
++        if stiffness_distribution_params is not None:
++            stiffness = actuator.stiffness[env_ids].clone()  # [num_envs, num_actuator_joints]
++            
++            # Reset to defaults first
++            default_stiffness = asset.data.default_joint_stiffness[env_ids][:, actuator_joint_ids].clone()
++            stiffness[:] = default_stiffness
++            
++            # Apply paired randomization
++            for left_name, right_name in joint_pairs:
++                if left_name in actuator_joint_names and right_name in actuator_joint_names:
++                    left_local_idx = actuator_joint_names.index(left_name)
++                    right_local_idx = actuator_joint_names.index(right_name)
++                    
++                    # Sample ONE value for the pair
++                    if distribution == "uniform":
++                        rand_val = math_utils.sample_uniform(
++                            stiffness_distribution_params[0], stiffness_distribution_params[1],
++                            (len(env_ids),), device=asset.device
++                        )
++                    elif distribution == "log_uniform":
++                        rand_val = torch.exp(math_utils.sample_uniform(
++                            torch.log(torch.tensor(stiffness_distribution_params[0])), 
++                            torch.log(torch.tensor(stiffness_distribution_params[1])),
++                            (len(env_ids),), device=asset.device
++                        ))
++                    elif distribution == "gaussian":
++                        rand_val = torch.normal(
++                            stiffness_distribution_params[0], stiffness_distribution_params[1],
++                            (len(env_ids),), device=asset.device
++                        )
++                    
++                    # Apply to both left and right
++                    if operation == "add":
++                        stiffness[:, left_local_idx] += rand_val
++                        stiffness[:, right_local_idx] += rand_val
++                    elif operation == "scale":
++                        stiffness[:, left_local_idx] *= rand_val
++                        stiffness[:, right_local_idx] *= rand_val
++                    elif operation == "abs":
++                        stiffness[:, left_local_idx] = rand_val
++                        stiffness[:, right_local_idx] = rand_val
++
++            actuator.stiffness[env_ids] = stiffness
++            if isinstance(actuator, ImplicitActuator):
++                asset.write_joint_stiffness_to_sim(stiffness, joint_ids=actuator.joint_indices, env_ids=env_ids)
++
++        # Randomize damping (same logic)
++        if damping_distribution_params is not None:
++            damping = actuator.damping[env_ids].clone()
++            
++            default_damping = asset.data.default_joint_damping[env_ids][:, actuator_joint_ids].clone()
++            damping[:] = default_damping
++            
++            for left_name, right_name in joint_pairs:
++                if left_name in actuator_joint_names and right_name in actuator_joint_names:
++                    left_local_idx = actuator_joint_names.index(left_name)
++                    right_local_idx = actuator_joint_names.index(right_name)
++                    
++                    if distribution == "uniform":
++                        rand_val = math_utils.sample_uniform(
++                            damping_distribution_params[0], damping_distribution_params[1],
++                            (len(env_ids),), device=asset.device
++                        )
++                    elif distribution == "log_uniform":
++                        rand_val = torch.exp(math_utils.sample_uniform(
++                            torch.log(torch.tensor(damping_distribution_params[0])), 
++                            torch.log(torch.tensor(damping_distribution_params[1])),
++                            (len(env_ids),), device=asset.device
++                        ))
++                    elif distribution == "gaussian":
++                        rand_val = torch.normal(
++                            damping_distribution_params[0], damping_distribution_params[1],
++                            (len(env_ids),), device=asset.device
++                        )
++                    
++                    if operation == "add":
++                        damping[:, left_local_idx] += rand_val
++                        damping[:, right_local_idx] += rand_val
++                    elif operation == "scale":
++                        damping[:, left_local_idx] *= rand_val
++                        damping[:, right_local_idx] *= rand_val
++                    elif operation == "abs":
++                        damping[:, left_local_idx] = rand_val
++                        damping[:, right_local_idx] = rand_val
++
++            actuator.damping[env_ids] = damping
++            if isinstance(actuator, ImplicitActuator):
++                asset.write_joint_damping_to_sim(damping, joint_ids=actuator.joint_indices, env_ids=env_ids)
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py
+index dab10d2..1bf0b62 100644
+--- a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py
++++ b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/rewards.py
+@@ -951,4 +951,229 @@ def base_lin_vel_x(
+ ) -> torch.Tensor:
+     """Root linear velocity x component in the asset's root frame (for logging, weight=0)."""
+     asset = env.scene[asset_cfg.name]
+-    return asset.data.root_lin_vel_b[:, 0]
+\ No newline at end of file
++    return asset.data.root_lin_vel_b[:, 0]
++
++
++def leg_separation_penalty(
++    env: ManagerBasedRLEnv,
++    asset_cfg: SceneEntityCfg,
++    min_separation: float,
++) -> torch.Tensor:
++    """Penalize when left and right legs get too close in robot's local Y axis.
++    
++    In robot's local frame, left leg should have positive Y, right leg negative Y.
++    sep = left_y - right_y should be > min_separation.
++    """
++    asset: RigidObject = env.scene[asset_cfg.name]
++    
++    left_idx = asset_cfg.body_ids[0]
++    right_idx = asset_cfg.body_ids[1]
++    
++    base_quat = asset.data.root_quat_w
++    heading_aligned = math_utils.yaw_quat(base_quat)
++    
++    left_pos = math_utils.quat_rotate_inverse(heading_aligned, asset.data.body_pos_w[:, left_idx])
++    right_pos = math_utils.quat_rotate_inverse(heading_aligned, asset.data.body_pos_w[:, right_idx])
++    
++    sep = left_pos[:, 1] - right_pos[:, 1]
++    violation = torch.clamp(min_separation - sep, min=0.0)
++    return violation
++
++
++def leg_pairwise_contact_penalty(
++    env: ManagerBasedRLEnv,
++    sensor_cfg: SceneEntityCfg,
++    force_threshold: float,
++    left_body_names: list[str],
++    right_body_names: list[str],
++) -> torch.Tensor:
++    """Penalize contact between left and right leg bodies (pairwise).
++    
++    Uses filtered contact pair forces from force_matrix_w.
++    Falls back to net_forces_w heuristic if force_matrix_w not available.
++    Only checks left leg bodies vs right leg bodies, not ground contacts.
++    """
++    contact_sensor: ContactSensor = env.scene.sensors[sensor_cfg.name]
++    
++    # Get body indices for left and right leg bodies
++    asset: RigidObject = env.scene["robot"]
++    left_indices = [asset.data.body_names.index(name) for name in left_body_names]
++    right_indices = [asset.data.body_names.index(name) for name in right_body_names]
++    
++    # Use force_matrix_w for true pairwise contact forces [num_envs, num_bodies, num_bodies, 3]
++    force_matrix = contact_sensor.data.force_matrix_w
++    
++    penalty = torch.zeros(env.num_envs, device=env.device, dtype=torch.float)
++    
++    if force_matrix is not None:
++        # Check pairwise: each left body vs each right body using force_matrix
++        for l_idx in left_indices:
++            for r_idx in right_indices:
++                # force_matrix[:, l_idx, r_idx] gives force on l_idx from r_idx
++                pair_force = torch.norm(force_matrix[:, l_idx, r_idx], dim=-1)
++                pair_force_rev = torch.norm(force_matrix[:, r_idx, l_idx], dim=-1)
++                # Sum both directions for total contact force between the pair
++                total_pair_force = pair_force + pair_force_rev
++                
++                # Penalize if contact force exceeds threshold
++                contact_mask = total_pair_force > force_threshold
++                penalty += contact_mask.float() * total_pair_force
++    else:
++        # Fallback: use net_forces_w (less accurate)
++        net_forces = contact_sensor.data.net_forces_w
++        if net_forces is not None:
++            for l_idx in left_indices:
++                for r_idx in right_indices:
++                    l_force = torch.norm(net_forces[:, l_idx], dim=-1)
++                    r_force = torch.norm(net_forces[:, r_idx], dim=-1)
++                    both_contact = (l_force > force_threshold) & (r_force > force_threshold)
++                    penalty += both_contact.float() * (l_force + r_force)
++    
++    return penalty
++
++
++def mirror_symmetry_loss(
++    env: ManagerBasedRLEnv,
++    joint_names: list[str],
++) -> torch.Tensor:
++    """Mirror symmetry loss: encourage left/right joint symmetry.
++    
++    For a symmetric gait, left and right joints should be mirrored.
++    Hip/ankle roll and yaw have opposite signs.
++    """
++    asset = env.scene["robot"]
++    
++    # Build mirror mapping for joint names
++    # Left joints -> corresponding right joints with sign flips
++    mirror_map = {}
++    sign_flip = {}
++    
++    for i, name in enumerate(joint_names):
++        if name.startswith("left_"):
++            right_name = name.replace("left_", "right_")
++            if right_name in joint_names:
++                mirror_map[i] = joint_names.index(right_name)
++                # hip/ankle roll and yaw flip sign
++                if "roll" in name or "yaw" in name:
++                    sign_flip[i] = -1.0
++                else:
++                    sign_flip[i] = 1.0
++        elif name.startswith("right_"):
++            left_name = name.replace("right_", "left_")
++            if left_name in joint_names:
++                mirror_map[i] = joint_names.index(left_name)
++                if "roll" in name or "yaw" in name:
++                    sign_flip[i] = -1.0
++                else:
++                    sign_flip[i] = 1.0
++        else:
++            mirror_map[i] = i
++            sign_flip[i] = 1.0
++    
++    joint_pos = asset.data.joint_pos
++    loss = torch.zeros(env.num_envs, device=env.device, dtype=torch.float)
++    
++    for i, j in mirror_map.items():
++        if i < j:  # Only compute once per pair
++            expected = sign_flip[i] * joint_pos[:, j]
++            loss += torch.square(joint_pos[:, i] - expected)
++    
++    return loss
++
++
++def inter_leg_collision_count(
++    env: ManagerBasedRLEnv,
++    sensor_cfg: SceneEntityCfg,
++    force_threshold: float,
++    left_body_names: list[str],
++    right_body_names: list[str],
++) -> torch.Tensor:
++    """Count inter-leg collisions per step (for logging, weight=0).
++    
++    Uses force_matrix_w for true pairwise contact detection.
++    Falls back to net_forces_w heuristic if force_matrix_w not available.
++    Returns count of left-right body pairs in contact above threshold.
++    """
++    contact_sensor: ContactSensor = env.scene.sensors[sensor_cfg.name]
++    
++    asset: RigidObject = env.scene["robot"]
++    left_indices = [asset.data.body_names.index(name) for name in left_body_names]
++    right_indices = [asset.data.body_names.index(name) for name in right_body_names]
++    
++    force_matrix = contact_sensor.data.force_matrix_w
++    
++    count = torch.zeros(env.num_envs, device=env.device, dtype=torch.float)
++    
++    if force_matrix is not None:
++        for l_idx in left_indices:
++            for r_idx in right_indices:
++                pair_force = torch.norm(force_matrix[:, l_idx, r_idx], dim=-1)
++                pair_force_rev = torch.norm(force_matrix[:, r_idx, l_idx], dim=-1)
++                total_pair_force = pair_force + pair_force_rev
++                count += (total_pair_force > force_threshold).float()
++    else:
++        # Fallback to net_forces_w
++        net_forces = contact_sensor.data.net_forces_w
++        if net_forces is not None:
++            for l_idx in left_indices:
++                for r_idx in right_indices:
++                    l_force = torch.norm(net_forces[:, l_idx], dim=-1)
++                    r_force = torch.norm(net_forces[:, r_idx], dim=-1)
++                    count += ((l_force > force_threshold) & (r_force > force_threshold)).float()
++        else:
++            # No contact data available
++            pass
++    
++    return count
++
++
++def base_lin_vel_y_l2(
++    env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
++) -> torch.Tensor:
++    """Penalize lateral (y) velocity in base frame.
++    
++    High lateral velocity often indicates instability / near-fall.
++    """
++    asset = env.scene[asset_cfg.name]
++    return torch.square(asset.data.root_lin_vel_b[:, 1])
++
++
++def base_orientation_roll_yaw_l2(
++    env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")
++) -> torch.Tensor:
++    """Penalize roll and yaw orientation deviation from upright.
++    
++    Large roll or yaw angle indicates near-fall state.
++    """
++    asset = env.scene[asset_cfg.name]
++    roll, pitch, yaw = math_utils.euler_xyz_from_quat(asset.data.root_quat_w)
++    return torch.square(roll) + torch.square(yaw)
++
++
++def leg_min_distance_penalty(
++    env: ManagerBasedRLEnv,
++    asset_cfg: SceneEntityCfg,
++    min_distance: float,
++) -> torch.Tensor:
++    """Penalize when any left-right leg body pair gets too close.
++    
++    Computes minimum distance between all left-right body pairs in world frame.
++    Acts as early warning for inter-leg collision.
++    """
++    asset: RigidObject = env.scene[asset_cfg.name]
++    
++    # Expect 4 bodies: [left_ankle, left_knee, right_ankle, right_knee]
++    # with preserve_order=True, indices 0,1 are left, 2,3 are right
++    left_indices = asset_cfg.body_ids[:2]
++    right_indices = asset_cfg.body_ids[2:]
++    
++    min_dist = torch.full((env.num_envs,), float('inf'), device=env.device, dtype=torch.float)
++    
++    for l_idx in left_indices:
++        for r_idx in right_indices:
++            dist = torch.norm(asset.data.body_pos_w[:, l_idx] - asset.data.body_pos_w[:, r_idx], dim=-1)
++            min_dist = torch.minimum(min_dist, dist)
++    
++    # Penalty when distance < min_distance
++    violation = torch.clamp(min_distance - min_dist, min=0.0)
++    return violation
+\ No newline at end of file
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/terminations.py b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/terminations.py
+index 2ceec2c..3a0669e 100644
+--- a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/terminations.py
++++ b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/mdp/terminations.py
+@@ -6,15 +6,12 @@ from torch import nn
+ 
+ from isaaclab.assets import Articulation, RigidObject
+ from isaaclab.managers import SceneEntityCfg
+-from isaaclab.sensors import ContactSensor , RayCaster
++from isaaclab.sensors import ContactSensor, RayCaster
+ 
+ if TYPE_CHECKING:
+     from isaaclab.envs import ManagerBasedRLEnv
+     from isaaclab.managers.command_manager import CommandTerm
+ 
+-"""
+-Customized MDP terminations.
+-"""
+ 
+ # Cauclate the boundary of subterrain based on the env_origin_pos and sub_terrian_size
+ def base_out_of_subterrain(
+@@ -37,4 +34,71 @@ def base_out_of_subterrain(
+     # if robot_pos -8 < pos_x < 0 and -8 < pos_y < 0, then the robot is in the subterrain
+     out_of_subterrain = torch.any((root_pos < lower_bound) | (root_pos > upper_bound), dim=1)
+ 
+-    return out_of_subterrain
+\ No newline at end of file
++    return out_of_subterrain
++
++
++def inter_leg_collision_termination(
++    env: ManagerBasedRLEnv,
++    sensor_cfg: SceneEntityCfg,
++    force_threshold: float,
++    left_body_names: list[str],
++    right_body_names: list[str],
++    consecutive_steps: int = 3,
++) -> torch.Tensor:
++    """Terminate episode when left and right legs have continuous contact for N steps.
++    
++    Uses force_matrix_w for true pairwise contact detection.
++    Falls back to net_forces_w if force_matrix_w is not available.
++    Tracks consecutive contact steps per environment.
++    """
++    contact_sensor: ContactSensor = env.scene.sensors[sensor_cfg.name]
++    
++    asset: RigidObject = env.scene["robot"]
++    left_indices = [asset.data.body_names.index(name) for name in left_body_names]
++    right_indices = [asset.data.body_names.index(name) for name in right_body_names]
++    
++    # Try force_matrix_w first (true pairwise), fallback to net_forces_w heuristic
++    force_matrix = contact_sensor.data.force_matrix_w
++    
++    contact_any = torch.zeros(env.num_envs, device=env.device, dtype=torch.bool)
++    
++    if force_matrix is not None:
++        # True pairwise contact detection using force_matrix_w
++        for l_idx in left_indices:
++            for r_idx in right_indices:
++                pair_force = torch.norm(force_matrix[:, l_idx, r_idx], dim=-1)
++                pair_force_rev = torch.norm(force_matrix[:, r_idx, l_idx], dim=-1)
++                total_pair_force = pair_force + pair_force_rev
++                contact_any |= (total_pair_force > force_threshold)
++    else:
++        # Fallback: check if both left and right bodies have significant contact simultaneously
++        # This is less accurate but better than nothing
++        net_forces = contact_sensor.data.net_forces_w
++        if net_forces is not None:
++            for l_idx in left_indices:
++                for r_idx in right_indices:
++                    l_force = torch.norm(net_forces[:, l_idx], dim=-1)
++                    r_force = torch.norm(net_forces[:, r_idx], dim=-1)
++                    both_contact = (l_force > force_threshold) & (r_force > force_threshold)
++                    contact_any |= both_contact
++        else:
++            # No contact data available, skip termination
++            return torch.zeros(env.num_envs, device=env.device, dtype=torch.bool)
++    
++    # Track consecutive steps using a buffer in env
++    if not hasattr(env, "_inter_leg_contact_steps"):
++        env._inter_leg_contact_steps = torch.zeros(env.num_envs, device=env.device, dtype=torch.long)
++    
++    env._inter_leg_contact_steps = torch.where(
++        contact_any,
++        env._inter_leg_contact_steps + 1,
++        torch.zeros_like(env._inter_leg_contact_steps)
++    )
++    
++    # Terminate if consecutive steps exceeded
++    terminate = env._inter_leg_contact_steps >= consecutive_steps
++    
++    # Reset counter for terminated envs
++    env._inter_leg_contact_steps[terminate] = 0
++    
++    return terminate
+\ No newline at end of file
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/__pycache__/__init__.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/__pycache__/__init__.cpython-310.pyc
+index 41c007d..a67befc 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/__pycache__/__init__.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/__pycache__/__init__.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/__pycache__/__init__.cpython-310.pyc
+index 080a3d5..1126fe6 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/__pycache__/__init__.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/__pycache__/velocity_env_cfg.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/__pycache__/velocity_env_cfg.cpython-310.pyc
+index 637b3f9..079bb16 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/__pycache__/velocity_env_cfg.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/__pycache__/velocity_env_cfg.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py
+index 52dfe4b..f47cc5f 100644
+--- a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py
++++ b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/31dof/velocity_env_cfg.py
+@@ -195,7 +195,7 @@ class VelocityCommandsCfg:
+         heading_control_stiffness=1.0 / math.pi,
+         debug_vis=True,
+         high_speed_prob=0.7,
+-        high_speed_range=(2.4, 3.0),
++        high_speed_range=(2.6, 3.0),
+         low_speed_range=(-0.5, 1.0),
+         ranges=BiasedVelocityCommandCfg.Ranges(
+             lin_vel_x=(-0.5, 3.0), lin_vel_y=(-0.05, 0.05), ang_vel_z=(-0.10, 0.10), heading=(-math.pi, math.pi)
+@@ -357,7 +357,7 @@ class VelocityRewardsCfg:
+             "offset": [0.0, 0.5],
+             "threshold": 0.55,
+             "command_name": "base_velocity",
+-            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*ankle_roll.*"),
++            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["left_ankle_roll_link", "right_ankle_roll_link"], preserve_order=True),
+         },
+     )
+ 
+@@ -365,7 +365,7 @@ class VelocityRewardsCfg:
+         func=mdp.feet_air_time_positive_biped,
+         weight=0.5,
+         params={
+-            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*ankle_roll.*"),
++            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["left_ankle_roll_link", "right_ankle_roll_link"], preserve_order=True),
+             "command_name": "base_velocity",
+             "threshold": 0.5,
+         },
+@@ -378,12 +378,12 @@ class VelocityRewardsCfg:
+             "std": 0.05,
+             "tanh_mult": 2.0,
+             "target_height": 0.10,
+-            "asset_cfg": SceneEntityCfg("robot", body_names=".*ankle_roll.*"),
++            "asset_cfg": SceneEntityCfg("robot", body_names=["left_ankle_roll_link", "right_ankle_roll_link"], preserve_order=True),
+         },
+     )
+     # -- termination -- #
+     is_alive = RewTerm(func=mdp.is_alive, weight=1.0)
+-    is_terminated = RewTerm(func=mdp.is_terminated, weight=-1.0)
++    is_terminated = RewTerm(func=mdp.is_terminated, weight=-50.0)
+ 
+     # -- logging (weight=0, not affecting training) -- #
+     base_vx = RewTerm(
+@@ -420,8 +420,8 @@ class VelocityRewardsCfg:
+         func=mdp.feet_slide, 
+         weight=-0.1, 
+         params={
+-            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=".*ankle_roll.*"), 
+-            "asset_cfg": SceneEntityCfg("robot", body_names=".*ankle_roll.*")
++            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["left_ankle_roll_link", "right_ankle_roll_link"], preserve_order=True), 
++            "asset_cfg": SceneEntityCfg("robot", body_names=["left_ankle_roll_link", "right_ankle_roll_link"], preserve_order=True)
+         }
+     )
+     undesired_contacts = RewTerm(
+@@ -444,7 +444,7 @@ class VelocityRewardsCfg:
+         # },
+     )
+ 
+-    # -- energy
++# -- energy
+     dof_acc_l2 = RewTerm(func=mdp.joint_acc_l2, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-5.0e-7)
+     dof_vel_l2 = RewTerm(func=mdp.joint_vel_l2, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-7.5e-4)
+     dof_torques_l2 = RewTerm(func=mdp.joint_torques_l2, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-3.0e-7)
+@@ -452,6 +452,81 @@ class VelocityRewardsCfg:
+     applied_torque_limits = RewTerm(func=mdp.applied_torque_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-3.0e-2)
+     action_rate_l2 = RewTerm(func=mdp.action_rate_l2, weight=-3.0e-3)
+ 
++    # -- leg collision prevention -- #
++    # 1. 几何接近惩罚：监控左右脚踝、膝关节在机器人局部坐标系 Y 轴的间距
++    # 左脚在左侧 -> left_y - right_y > 0，惩罚间距过小
++    leg_sep_ankle = RewTerm(
++        func=mdp.leg_separation_penalty,
++        weight=-2.0,
++        params={
++            "asset_cfg": SceneEntityCfg("robot", body_names=["left_ankle_roll_link", "right_ankle_roll_link"], preserve_order=True),
++            "min_separation": 0.08,
++        },
++    )
++    leg_sep_knee = RewTerm(
++        func=mdp.leg_separation_penalty,
++        weight=-1.0,
++        params={
++            "asset_cfg": SceneEntityCfg("robot", body_names=["left_knee_link", "right_knee_link"], preserve_order=True),
++            "min_separation": 0.10,
++        },
++    )
++
++    # 2. 真正的 pairwise contact 惩罚：只检测左脚/左小腿 <-> 右脚/右小腿 的接触力
++    # DISABLED: current implementation uses net_forces_w, not true pairwise contact detection
++    leg_pairwise_contact = RewTerm(
++        func=mdp.leg_pairwise_contact_penalty,
++        weight=0.0,
++        params={
++            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["left_ankle_roll_link", "left_ankle_pitch_link", "right_ankle_roll_link", "right_ankle_pitch_link"], preserve_order=True),
++            "force_threshold": 20.0,
++            "left_body_names": ["left_ankle_roll_link", "left_ankle_pitch_link"],
++            "right_body_names": ["right_ankle_roll_link", "right_ankle_pitch_link"],
++        },
++    )
++
++# 3. 镜像对称损失：鼓励左右对称
++    # DISABLED: current implementation compares same-timestep left/right joints, breaks alternating gait
++    mirror_symmetry = RewTerm(
++        func=mdp.mirror_symmetry_loss,
++        weight=0.0,
++        params={
++            "joint_names": JOINT_NAMES,
++        },
++    )
++
++    # Logging: track inter-leg collision count (weight=0, only for logging)
++    inter_leg_collision_count = RewTerm(
++        func=mdp.inter_leg_collision_count,
++        weight=0.0,
++        params={
++            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["left_ankle_roll_link", "left_ankle_pitch_link", "right_ankle_roll_link", "right_ankle_pitch_link"], preserve_order=True),
++            "force_threshold": 20.0,
++            "left_body_names": ["left_ankle_roll_link", "left_ankle_pitch_link"],
++            "right_body_names": ["right_ankle_roll_link", "right_ankle_pitch_link"],
++        },
++    )
++
++    # Dense near-fall signals
++    # 横向速度惩罚：大的横向速度通常预示跌倒
++    base_lin_vel_y_penalty = RewTerm(
++        func=mdp.base_lin_vel_y_l2,
++        weight=-0.5,
++    )
++    # Roll/Yaw 姿态惩罚：roll过大或yaw偏移大通常预示跌倒
++    base_orientation_roll_yaw = RewTerm(
++        func=mdp.base_orientation_roll_yaw_l2,
++        weight=-0.2,
++    )
++    # 腿间最近距离惩罚：腿快碰撞时预警
++    leg_min_distance_penalty = RewTerm(
++        func=mdp.leg_min_distance_penalty,
++        weight=-1.0,
++        params={
++            "asset_cfg": SceneEntityCfg("robot", body_names=["left_ankle_roll_link", "left_knee_link", "right_ankle_roll_link", "right_knee_link"], preserve_order=True),
++            "min_distance": 0.12,
++        },
++    )
+     
+ @configclass
+ class VelocityTerminationsCfg:
+@@ -477,6 +552,18 @@ class VelocityTerminationsCfg:
+         params={"minimum_height": 0.4},
+     )
+ 
++    # Terminate if left/right legs have continuous contact (inter-leg collision)
++    inter_leg_collision = DoneTerm(
++        func=mdp.inter_leg_collision_termination,
++        params={
++            "sensor_cfg": SceneEntityCfg("contact_forces", body_names=["left_ankle_roll_link", "left_ankle_pitch_link", "right_ankle_roll_link", "right_ankle_pitch_link"], preserve_order=True),
++            "force_threshold": 20.0,
++            "left_body_names": ["left_ankle_roll_link", "left_ankle_pitch_link"],
++            "right_body_names": ["right_ankle_roll_link", "right_ankle_pitch_link"],
++            "consecutive_steps": 3,
++        },
++    )
++
+ 
+ @configclass
+ class VelocityEventCfg:
+@@ -490,14 +577,14 @@ class VelocityEventCfg:
+             "asset_cfg": SceneEntityCfg("robot", body_names=".*"),
+             "static_friction_range": (0.2, 1.5),
+             "dynamic_friction_range": (0.1, 1.2),
+-            "restitution_range": (0.0, 1.0),
++            "restitution_range": (0.0, 0.1),
+             "num_buckets": 64,
+             # "make_consistent": True,
+         },
+     )
+ 
+     actuator_gains = EventTerm(
+-        func=mdp.randomize_actuator_gains,
++        func=mdp.randomize_actuator_gains_paired,
+         mode="reset",
+         params={
+             "asset_cfg": SceneEntityCfg("robot", joint_names=".*"),
+@@ -560,7 +647,7 @@ class VelocityEventCfg:
+         params={
+             "asset_cfg": SceneEntityCfg("robot", body_names="waist_pitch_link"),
+             "x_range": (-0.1, 0.1),
+-            "y_range": (-0.08, 0.08),
++            "y_range": (-0.02, 0.02),
+             "z_range": (-0.1, 0.1),
+         },
+     )
+@@ -631,7 +718,7 @@ class VelocityEnvCfg(ManagerBasedRLEnvCfg):
+         """Post initialization."""
+         # general settings
+         self.decimation = 5
+-        self.episode_length_s = 20.0
++        self.episode_length_s = 60.0
+         # simulation settings
+         self.sim.dt = 0.002
+         self.sim.render_interval = self.decimation
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/__pycache__/__init__.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/__pycache__/__init__.cpython-310.pyc
+index a022adc..2c8284d 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/__pycache__/__init__.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/robots/oli/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/terrain/__pycache__/__init__.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/terrain/__pycache__/__init__.cpython-310.pyc
+index 384893c..814dce4 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/terrain/__pycache__/__init__.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/terrain/__pycache__/__init__.cpython-310.pyc differ
+diff --git a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/terrain/__pycache__/rough.cpython-310.pyc b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/terrain/__pycache__/rough.cpython-310.pyc
+index 83df9bc..ff825d3 100644
+Binary files a/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/terrain/__pycache__/rough.cpython-310.pyc and b/source/limx_rl_forge/limx_rl_forge/tasks/locomotion/terrain/__pycache__/rough.cpython-310.pyc differ
+diff --git a/wandb/debug-internal.log b/wandb/debug-internal.log
+index 98ce960..9fe98c6 120000
+--- a/wandb/debug-internal.log
++++ b/wandb/debug-internal.log
+@@ -1 +1 @@
+-run-20260823_111216-ik7o7air/logs/debug-internal.log
+\ No newline at end of file
++run-20260901_075950-k3oo3q1c/logs/debug-internal.log
+\ No newline at end of file
+diff --git a/wandb/debug.log b/wandb/debug.log
+index 550ab0e..b4ea647 120000
+--- a/wandb/debug.log
++++ b/wandb/debug.log
+@@ -1 +1 @@
+-run-20260823_111216-ik7o7air/logs/debug.log
+\ No newline at end of file
++run-20260901_075950-k3oo3q1c/logs/debug.log
+\ No newline at end of file
+diff --git a/wandb/latest-run b/wandb/latest-run
+index 82b91ab..6987fe9 120000
+--- a/wandb/latest-run
++++ b/wandb/latest-run
+@@ -1 +1 @@
+-run-20260823_111216-ik7o7air
+\ No newline at end of file
++run-20260901_075950-k3oo3q1c
+\ No newline at end of file
