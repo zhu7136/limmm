@@ -459,7 +459,7 @@ class VelocityRewardsCfg:
     joint_pos_limits = RewTerm(func=mdp.joint_pos_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-1.0)
     applied_torque_limits = RewTerm(func=mdp.applied_torque_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-3.0e-2)
     # 0.85软扭矩边界
-    torque_soft_limits = RewTerm(func=mdp.torque_soft_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True), "soft_ratio": 0.85}, weight=-1.0)
+    torque_soft_limits = RewTerm(func=mdp.torque_soft_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True), "soft_ratio": 0.85}, weight=0.0)
     action_rate_l2 = RewTerm(func=mdp.action_rate_l2, weight=-3.0e-3)
 
     # -- leg collision prevention -- #
