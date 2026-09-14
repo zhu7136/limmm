@@ -755,9 +755,20 @@ def power(env: ManagerBasedRLEnv, joint_weights=None, asset_cfg: SceneEntityCfg 
 
 # torque 
 def torque_soft_limits(env: ManagerBasedRLEnv, soft_ratio, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
+    """Soft torque limits based on computed_torque (before actuator clipping).
+    
+    Args:
+        soft_ratio: threshold ratio (e.g. 0.85 means start penalizing at 85% of limit)
+    """
     asset: Articulation = env.scene[asset_cfg.name]
-    torque = asset.data.applied_torque[:, asset_cfg.joint_ids]
-    return torch.sum((torch.abs(torque[:, joint_order]) - torque_limits_vec * soft_ratio).clip(min=0.), dim=1)
+    torque = asset.data.computed_torque[:, asset_cfg.joint_ids]
+    limit = asset.data.joint_effort_limits[:, asset_cfg.joint_ids]
+    
+    ratio = torch.abs(torque) / torch.clamp(limit, min=1e-6)
+    excess = torch.relu(ratio - soft_ratio) / (1.0 - soft_ratio)
+    excess = torch.clamp(excess, max=1.0)
+    
+    return torch.mean(excess.square(), dim=1)
 
 # torque
 def torques_smoothness(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
