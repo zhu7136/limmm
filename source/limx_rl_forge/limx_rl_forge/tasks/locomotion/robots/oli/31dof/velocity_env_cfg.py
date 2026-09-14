@@ -341,7 +341,7 @@ class VelocityRewardsCfg:
     # -- Task rewards
     track_lin_vel_xy_exp = RewTerm(
         func=mdp.track_lin_vel_xy_exp, 
-        weight=2.8, 
+        weight=3.5, 
         params={
             "command_name": "base_velocity", 
             "std": 0.4, 
@@ -391,7 +391,7 @@ class VelocityRewardsCfg:
     )
     # -- termination -- #
     is_alive = RewTerm(func=mdp.is_alive, weight=1.0)
-    is_terminated = RewTerm(func=mdp.is_terminated, weight=-25.0)
+    is_terminated = RewTerm(func=mdp.is_terminated, weight=-10.0)
 
     # -- logging (weight=0, not affecting training) -- #
     base_vx = RewTerm(
@@ -459,7 +459,7 @@ class VelocityRewardsCfg:
     joint_pos_limits = RewTerm(func=mdp.joint_pos_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-1.0)
     applied_torque_limits = RewTerm(func=mdp.applied_torque_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-3.0e-2)
     # 0.85软扭矩边界
-    torque_soft_limits = RewTerm(func=mdp.torque_soft_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True), "soft_ratio": 0.85}, weight=-0.05)
+    torque_soft_limits = RewTerm(func=mdp.torque_soft_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True), "soft_ratio": 0.85}, weight=0.0)
     action_rate_l2 = RewTerm(func=mdp.action_rate_l2, weight=-3.0e-3)
 
     # -- leg collision prevention -- #
@@ -541,7 +541,7 @@ class VelocityRewardsCfg:
     # -- 直线模式奖励 --
     straight_line_heading_reward = RewTerm(
         func=mdp.straight_line_heading_reward,
-        weight=0.4,
+        weight=0.5,
         params={
             "command_name": "base_velocity",
             "std": 0.08,
@@ -549,7 +549,7 @@ class VelocityRewardsCfg:
     )
     straight_line_lateral_path_reward = RewTerm(
         func=mdp.straight_line_lateral_path_reward,
-        weight=0.4,
+        weight=0.5,
         params={
             "command_name": "base_velocity",
             "std": 0.30,
