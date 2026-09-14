@@ -194,8 +194,16 @@ class VelocityCommandsCfg:
         heading_command=True,
         heading_control_stiffness=1.0 / math.pi,
         debug_vis=True,
-        high_speed_prob=0.7,
-        high_speed_range=(2.6, 3.0),
+        # 三种环境模式概率
+        straight_prob=0.7,
+        perturbed_prob=0.2,
+        low_speed_prob=0.1,
+        # 高速直线模式参数
+        straight_speed_range=(2.6, 3.0),
+        # 轻微方向扰动模式参数
+        perturbed_vy_range=(-0.03, 0.03),
+        perturbed_yaw_rate_range=(-0.05, 0.05),
+        # 低速模式参数
         low_speed_range=(-0.5, 1.0),
         ranges=BiasedVelocityCommandCfg.Ranges(
             lin_vel_x=(-0.5, 3.0), lin_vel_y=(-0.05, 0.05), ang_vel_z=(-0.10, 0.10), heading=(-math.pi, math.pi)
@@ -383,7 +391,7 @@ class VelocityRewardsCfg:
     )
     # -- termination -- #
     is_alive = RewTerm(func=mdp.is_alive, weight=1.0)
-    is_terminated = RewTerm(func=mdp.is_terminated, weight=-50.0)
+    is_terminated = RewTerm(func=mdp.is_terminated, weight=-10.0)
 
     # -- logging (weight=0, not affecting training) -- #
     base_vx = RewTerm(
@@ -450,6 +458,8 @@ class VelocityRewardsCfg:
     dof_torques_l2 = RewTerm(func=mdp.joint_torques_l2, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-3.0e-7)
     joint_pos_limits = RewTerm(func=mdp.joint_pos_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-1.0)
     applied_torque_limits = RewTerm(func=mdp.applied_torque_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True)}, weight=-3.0e-2)
+    # 0.85软扭矩边界
+    torque_soft_limits = RewTerm(func=mdp.torque_soft_limits, params={"asset_cfg": SceneEntityCfg("robot", joint_names=JOINT_NAMES, preserve_order=True), "soft_ratio": 0.85}, weight=-1.0)
     action_rate_l2 = RewTerm(func=mdp.action_rate_l2, weight=-3.0e-3)
 
     # -- leg collision prevention -- #
@@ -526,6 +536,47 @@ class VelocityRewardsCfg:
             "asset_cfg": SceneEntityCfg("robot", body_names=["left_ankle_roll_link", "left_knee_link", "right_ankle_roll_link", "right_knee_link"], preserve_order=True),
             "min_distance": 0.12,
         },
+    )
+
+    # -- 直线模式奖励 --
+    straight_line_heading_reward = RewTerm(
+        func=mdp.straight_line_heading_reward,
+        weight=0.5,
+        params={
+            "command_name": "base_velocity",
+            "std": 0.08,
+        },
+    )
+    straight_line_lateral_path_reward = RewTerm(
+        func=mdp.straight_line_lateral_path_reward,
+        weight=0.5,
+        params={
+            "command_name": "base_velocity",
+            "std": 0.30,
+        },
+    )
+    lateral_velocity_penalty = RewTerm(
+        func=mdp.lateral_velocity_penalty,
+        weight=-0.5,
+        params={
+            "command_name": "base_velocity",
+        },
+    )
+
+    # -- 直线模式日志指标 (weight=0) --
+    straight_heading_error = RewTerm(
+        func=mdp.straight_heading_error_log,
+        weight=0.0,
+        params={"command_name": "base_velocity"},
+    )
+    straight_cross_track_error = RewTerm(
+        func=mdp.straight_cross_track_error_log,
+        weight=0.0,
+        params={"command_name": "base_velocity"},
+    )
+    straight_torque_saturation = RewTerm(
+        func=mdp.straight_torque_saturation_log,
+        weight=0.0,
     )
     
 @configclass

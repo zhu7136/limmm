@@ -1177,3 +1177,130 @@ def leg_min_distance_penalty(
     # Penalty when distance < min_distance
     violation = torch.clamp(min_distance - min_dist, min=0.0)
     return violation
+
+
+def straight_line_heading_reward(
+    env: ManagerBasedRLEnv,
+    command_name: str,
+    std: float = 0.08,
+) -> torch.Tensor:
+    """Reward for maintaining straight line heading in straight mode."""
+    from .commands.custom_velocity_command import BiasedVelocityCommand, EnvMode
+    
+    command_term = env.command_manager.get_term(command_name)
+    if not isinstance(command_term, BiasedVelocityCommand):
+        return torch.zeros(env.num_envs, device=env.device)
+    
+    straight_mask = command_term.env_mode == EnvMode.STRAIGHT
+    heading_error = math_utils.wrap_to_pi(
+        command_term.straight_heading_target - env.scene["robot"].data.heading_w
+    )
+    
+    reward = torch.exp(-(heading_error / std) ** 2)
+    reward = reward * straight_mask.float()
+    return reward
+
+
+def straight_line_lateral_path_reward(
+    env: ManagerBasedRLEnv,
+    command_name: str,
+    std: float = 0.30,
+) -> torch.Tensor:
+    """Reward for staying on a straight line path in straight mode."""
+    from .commands.custom_velocity_command import BiasedVelocityCommand, EnvMode
+    
+    command_term = env.command_manager.get_term(command_name)
+    if not isinstance(command_term, BiasedVelocityCommand):
+        return torch.zeros(env.num_envs, device=env.device)
+    
+    straight_mask = command_term.env_mode == EnvMode.STRAIGHT
+    
+    init_pos = command_term.straight_init_pos
+    init_heading = command_term.straight_heading_target
+    current_pos = env.scene["robot"].data.root_pos_w[:, :2]
+    
+    dx = current_pos[:, 0] - init_pos[:, 0]
+    dy = current_pos[:, 1] - init_pos[:, 1]
+    lateral_error = -torch.sin(init_heading) * dx + torch.cos(init_heading) * dy
+    
+    reward = torch.exp(-(lateral_error / std) ** 2)
+    reward = reward * straight_mask.float()
+    return reward
+
+
+def lateral_velocity_penalty(
+    env: ManagerBasedRLEnv,
+    command_name: str,
+) -> torch.Tensor:
+    """Penalize lateral velocity in straight mode."""
+    from .commands.custom_velocity_command import BiasedVelocityCommand, EnvMode
+    
+    command_term = env.command_manager.get_term(command_name)
+    if not isinstance(command_term, BiasedVelocityCommand):
+        return torch.zeros(env.num_envs, device=env.device)
+    
+    straight_mask = command_term.env_mode == EnvMode.STRAIGHT
+    base_vel_y = env.scene["robot"].data.root_lin_vel_b[:, 1]
+    command_vel_y = command_term.vel_command_b[:, 1]
+    
+    penalty = (base_vel_y - command_vel_y) ** 2
+    penalty = penalty * straight_mask.float()
+    return penalty
+
+
+def straight_heading_error_log(
+    env: ManagerBasedRLEnv,
+    command_name: str,
+) -> torch.Tensor:
+    """Log heading error in straight mode (weight=0)."""
+    from .commands.custom_velocity_command import BiasedVelocityCommand, EnvMode
+    
+    command_term = env.command_manager.get_term(command_name)
+    if not isinstance(command_term, BiasedVelocityCommand):
+        return torch.zeros(env.num_envs, device=env.device)
+    
+    heading_error = math_utils.wrap_to_pi(
+        command_term.straight_heading_target - env.scene["robot"].data.heading_w
+    )
+    return heading_error.abs()
+
+
+def straight_cross_track_error_log(
+    env: ManagerBasedRLEnv,
+    command_name: str,
+) -> torch.Tensor:
+    """Log cross track error in straight mode (weight=0)."""
+    from .commands.custom_velocity_command import BiasedVelocityCommand, EnvMode
+    
+    command_term = env.command_manager.get_term(command_name)
+    if not isinstance(command_term, BiasedVelocityCommand):
+        return torch.zeros(env.num_envs, device=env.device)
+    
+    init_pos = command_term.straight_init_pos
+    init_heading = command_term.straight_heading_target
+    current_pos = env.scene["robot"].data.root_pos_w[:, :2]
+    
+    dx = current_pos[:, 0] - init_pos[:, 0]
+    dy = current_pos[:, 1] - init_pos[:, 1]
+    lateral_error = -torch.sin(init_heading) * dx + torch.cos(init_heading) * dy
+    
+    return lateral_error.abs()
+
+
+def straight_torque_saturation_log(
+    env: ManagerBasedRLEnv,
+    asset_cfg: SceneEntityCfg = SceneEntityCfg("robot"),
+) -> torch.Tensor:
+    """Log torque saturation ratio in straight mode (weight=0)."""
+    from .commands.custom_velocity_command import BiasedVelocityCommand, EnvMode
+    
+    command_term = env.command_manager.get_term("base_velocity")
+    if not isinstance(command_term, BiasedVelocityCommand):
+        return torch.zeros(env.num_envs, device=env.device)
+    
+    asset: Articulation = env.scene[asset_cfg.name]
+    torque = asset.data.applied_torque[:, asset_cfg.joint_ids]
+    torque_limit = torque_limits_vec.unsqueeze(0).expand_as(torque)
+    
+    sat_ratio = (torque.abs() > 0.85 * torque_limit).float().mean(dim=1)
+    return sat_ratio
