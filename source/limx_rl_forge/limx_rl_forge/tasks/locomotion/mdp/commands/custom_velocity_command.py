@@ -72,17 +72,25 @@ def _resample_command(self, env_ids):
     self.env_mode[env_ids[is_low_speed]] = EnvMode.LOW_SPEED
     self.is_straight_env[env_ids] = is_straight
 
-    # 高速直线模式：vx=2.6-3.0, vy=0, ang_vel=0, 固定heading
+    # 高速直线模式：只在首次resample时设置vx，后续保持不变
     straight_ids = env_ids[is_straight]
     if len(straight_ids) > 0:
-        r_straight = torch.empty(len(straight_ids), device=self.device)
-        self.vel_command_b[straight_ids, 0] = r_straight.uniform_(*self.cfg.straight_speed_range)
-        self.vel_command_b[straight_ids, 1] = 0.0  # vy = 0
-        self.vel_command_b[straight_ids, 2] = 0.0  # ang_vel = 0
-        # 记录初始heading和位置（用于路径奖励）
-        self.straight_heading_target[straight_ids] = self.robot.data.heading_w[straight_ids]
-        self.straight_init_pos[straight_ids] = self.robot.data.root_pos_w[straight_ids, :2]
-        self.straight_initialized[straight_ids] = True
+        # 检查哪些环境是首次进入straight模式
+        first_time = ~self.straight_initialized[straight_ids]
+        first_straight_ids = straight_ids[first_time]
+        
+        if len(first_straight_ids) > 0:
+            r_straight = torch.empty(len(first_straight_ids), device=self.device)
+            self.vel_command_b[first_straight_ids, 0] = r_straight.uniform_(*self.cfg.straight_speed_range)
+            self.vel_command_b[first_straight_ids, 1] = 0.0
+            self.vel_command_b[first_straight_ids, 2] = 0.0
+            self.straight_heading_target[first_straight_ids] = self.robot.data.heading_w[first_straight_ids]
+            self.straight_init_pos[first_straight_ids] = self.robot.data.root_pos_w[first_straight_ids, :2]
+            self.straight_initialized[first_straight_ids] = True
+        
+        # 对于已初始化的straight环境，保持vx不变，只更新vy=0, ang_vel=0
+        self.vel_command_b[straight_ids, 1] = 0.0
+        self.vel_command_b[straight_ids, 2] = 0.0
 
     # 轻微方向扰动模式
     perturbed_ids = env_ids[is_perturbed]
