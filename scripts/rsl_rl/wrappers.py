@@ -6,6 +6,7 @@ from abc import ABC, abstractmethod
 
 import gymnasium as gym
 import torch
+from tensordict import TensorDict
 
 
 class VecEnv(ABC):
@@ -201,7 +202,7 @@ class LimxDrlEnvWrapper(VecEnv):
     Properties
     """
 
-    def get_observations(self) -> tuple[torch.Tensor, dict]:
+    def get_observations(self) -> TensorDict:
         """Returns the current observations of the environment."""
         if hasattr(self.unwrapped, "observation_manager"):
             obs_dict = self.unwrapped.observation_manager.compute()
@@ -211,7 +212,7 @@ class LimxDrlEnvWrapper(VecEnv):
         # obs_dict["policy"] = obs_dict["policy"] #torch.cat((obs_dict["policy"], obs_dict["gait_obs"]), dim=-1)
         obs_dict["history"] = self.obs_hist
 
-        return self.obs_hist, {"observations": obs_dict}
+        return TensorDict(obs_dict, batch_size=[self.num_envs])
 
     @property
     def episode_length_buf(self) -> torch.Tensor:
@@ -234,23 +235,24 @@ class LimxDrlEnvWrapper(VecEnv):
     def seed(self, seed: int = -1) -> int:  # noqa: D102
         return self.unwrapped.seed(seed)
 
-    def reset(self) -> tuple[torch.Tensor, dict]:  # noqa: D102
+    def reset(self) -> tuple[TensorDict, dict]:  # noqa: D102
         # reset the environment
         obs_dict, _ = self.env.reset()
         self.obs_hist = torch.zeros(self.num_envs, self.num_obs_hist * self.num_obs, device=self.device, dtype=torch.float)
-        self.env.unwrapped.data_cache.init(self.num_envs, self.device)  
+        self.env.unwrapped.data_cache.init(self.num_envs, self.device)
         # obs_dict["critic"] = obs_dict["critic"] #torch.cat((obs_dict["privileged_obs"], obs_dict["gait_obs"]), dim=-1)
         # obs_dict["policy"] = obs_dict["policy"] #torch.cat((obs_dict["policy"], obs_dict["gait_obs"]), dim=-1)
+        obs_dict["history"] = self.obs_hist
 
         # return observations
-        return self.obs_hist, {"observations": obs_dict}
+        return TensorDict(obs_dict, batch_size=[self.num_envs]), {"observations": obs_dict}
 
     def reset_idx(self, idx):
         if idx.any():
             self.obs_hist[idx] = 0
             self.env.unwrapped.data_cache.reset(idx)
 
-    def step(self, actions: torch.Tensor) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor, dict]:
+    def step(self, actions: torch.Tensor) -> tuple[TensorDict, torch.Tensor, torch.Tensor, dict]:
         # record step information
         obs_dict, rew, terminated, truncated, extras = self.env.step(actions)
         rew[:] = torch.clip(rew[:], 0.0, self.clip_reward)
@@ -259,7 +261,7 @@ class LimxDrlEnvWrapper(VecEnv):
         dones = (terminated | truncated).to(dtype=torch.long)
         # move extra observations to the extras dict
         obs = obs_dict["policy"] #torch.cat((obs_dict["policy"], obs_dict["gait_obs"]), dim=-1)
-        
+
         self.obs_hist = torch.cat((obs, self.obs_hist[:, :self.num_obs * (self.num_obs_hist - 1)]), dim=-1)
         # obs_dict["critic"] = obs_dict["critic"] #torch.cat((obs_dict["privileged_obs"], obs_dict["gait_obs"]), dim=-1)
         obs_dict["history"] = self.obs_hist
@@ -270,7 +272,7 @@ class LimxDrlEnvWrapper(VecEnv):
             extras["time_outs"] = truncated
 
         # return the step information
-        return self.obs_hist, rew, dones, extras
+        return TensorDict(obs_dict, batch_size=[self.num_envs]), rew, dones, extras
 
     def close(self):  # noqa: D102
         return self.env.close()

@@ -713,7 +713,9 @@ def body_orientation_exp(env: ManagerBasedRLEnv, asset_cfg: SceneEntityCfg = Sce
 def body_projected_gravity_l2(env: ManagerBasedRLEnv, std: float, asset_cfg: SceneEntityCfg = SceneEntityCfg("robot")) -> torch.Tensor:
     # get body orientation state
     asset: RigidObject = env.scene[asset_cfg.name]
-    body_projected_gravity = math_utils.quat_rotate_inverse(asset.data.body_quat_w[:, asset_cfg.body_ids], asset.data.GRAVITY_VEC_W.unsqueeze(1))
+    num_bodies = len(asset_cfg.body_ids)
+    gravity = asset.data.GRAVITY_VEC_W[:, None, :].expand(-1, num_bodies, -1)
+    body_projected_gravity = math_utils.quat_rotate_inverse(asset.data.body_quat_w[:, asset_cfg.body_ids], gravity)
     gravity_reward = torch.sum(torch.square(body_projected_gravity[:, :, :2]), dim=-1) / std ** 2 # [env, body_num]
     # gravity_reward = torch.norm(body_projected_gravity[:, :, :2], dim=-1) / std # [env, body_num]
     return torch.mean(gravity_reward,dim=1)
@@ -944,3 +946,29 @@ def foot_clearance_reward(
     foot_velocity_tanh = torch.tanh(tanh_mult * torch.norm(asset.data.body_lin_vel_w[:, asset_cfg.body_ids, :2], dim=2))
     reward = foot_z_target_error * foot_velocity_tanh
     return torch.exp(-torch.sum(reward, dim=1) / std)
+
+def foot_lateral_clearance_penalty(
+    env: ManagerBasedRLEnv,
+    asset_cfg: SceneEntityCfg,
+    min_distance: float = 0.15,
+) -> torch.Tensor:
+    """惩罚双脚横向过近或交叉；返回正值，配置中使用负权重。"""
+    robot = env.scene[asset_cfg.name]
+
+    # 配置中必须按“左脚、右脚”排列。
+    left_id, right_id = asset_cfg.body_ids
+    left_pos = robot.data.body_pos_w[:, left_id]
+    right_pos = robot.data.body_pos_w[:, right_id]
+
+    # 只去除机器人航向，不让身体侧倾改变间距定义。
+    heading_quat = math_utils.yaw_quat(robot.data.root_quat_w)
+    delta_heading = math_utils.quat_rotate_inverse(
+        heading_quat, left_pos - right_pos
+    )
+
+    # 机器人坐标系 +Y 为左侧：
+    # 正常左右排列为正，左右交叉为负。
+    lateral_gap = delta_heading[:, 1]
+
+    deficit = (min_distance - lateral_gap) / min_distance
+    return deficit.clamp(min=0.0, max=2.0).square()

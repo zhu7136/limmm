@@ -13,6 +13,10 @@ class PPORunnerCfg(RslRlOnPolicyRunnerCfg):
     save_interval = 1000
     experiment_name = ""  # same as task name
     empirical_normalization = False
+    obs_groups = {
+        "policy": ["history"],
+        "critic": ["critic"],
+    }
 
     # entropy decay
     entropy_decay = True

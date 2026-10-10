@@ -20,7 +20,6 @@ import isaaclab.sim as sim_utils
 from limx_rl_forge.assets.config.HU_D04_01 import LIMX_HUD04_01_CFG_SERIAL as HU_D04_01  # isort: skip
 from limx_rl_forge.tasks.locomotion.terrain.rough import ROUGH_TERRAINS_CFG as ROUGH_TERRAINS_CFG
 import limx_rl_forge.tasks.locomotion.mdp as mdp
-from limx_rl_forge.tasks.locomotion.mdp.terminations import inter_leg_collision_probe
 
 
 BODY_NAMES = [
@@ -174,15 +173,6 @@ class MySceneCfg(InteractiveSceneCfg):
     # sensors
     height_scanner = None
     contact_forces = ContactSensorCfg(prim_path="{ENV_REGEX_NS}/Robot/.*", history_length=3, track_air_time=True)
-    right_foot_to_left_leg = ContactSensorCfg(
-        prim_path="{ENV_REGEX_NS}/Robot/right_ankle_roll_link",
-        update_period=0.002,
-        history_length=3,
-        filter_prim_paths_expr=[
-            "{ENV_REGEX_NS}/Robot/left_ankle_roll_link",
-            "{ENV_REGEX_NS}/Robot/left_knee_link",
-        ],
-    )
     # lights
     light = AssetBaseCfg(
         prim_path="/World/light",
@@ -356,7 +346,7 @@ class VelocityRewardsCfg:
 
     foot_lateral_clearance = RewTerm(
         func=mdp.foot_lateral_clearance_penalty,
-        weight=-2.0,
+        weight=-1.0,
         params={
             "asset_cfg": SceneEntityCfg(
                 "robot",
@@ -366,7 +356,7 @@ class VelocityRewardsCfg:
                 ],
                 preserve_order=True,
             ),
-            "min_distance": 0.18,
+            "min_distance": 0.15,
         },
     )
 
@@ -375,7 +365,7 @@ class VelocityRewardsCfg:
         func=mdp.feet_gait,
         weight=0.5,
         params={
-            "period": 0.667,
+            "period": 1.2,
             "offset": [0.0, 0.5],
             "threshold": 0.55,
             "command_name": "base_velocity",
@@ -492,9 +482,6 @@ class VelocityTerminationsCfg:
         func=mdp.root_height_below_minimum,
         params={"minimum_height": 0.4},
     )
-
-    # 训练时关闭诊断探针；回放检查时再恢复。
-    inter_leg_collision_probe = None
 
 
 @configclass

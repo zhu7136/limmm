@@ -48,7 +48,7 @@ def inter_leg_collision_termination(
     right_body_names: list | None = None,
 ) -> torch.Tensor:
     """Terminate when left and right leg bodies are in contact above *force_threshold*."""
-    sensor: ContactSensor = env.scene[sensor_cfg.name]
+    contact_sensor: ContactSensor = env.scene[sensor_cfg.name]
 
     # 临时诊断：观察接触矩阵，不改变原来的终止结果。
     _sensor = env.scene["contact_forces"]
@@ -114,99 +114,3 @@ def inter_leg_collision_termination(
         right_contact |= force_mag[:, idx] > force_threshold
 
     return left_contact & right_contact
-
-
-def inter_leg_collision_probe(
-    env: ManagerBasedRLEnv,
-    sensor_cfg: SceneEntityCfg,
-) -> torch.Tensor:
-    """只诊断右脚对侧接触，始终不触发终止。"""
-    sensor: ContactSensor = env.scene[sensor_cfg.name]
-    fm = sensor.data.force_matrix_w
-    step = int(env.common_step_counter)
-
-    # 单环境诊断：回合计数下降，表示观察到了回合重置。
-    episode_step = int(env.episode_length_buf[0].item())
-    previous = getattr(env, "_straight_diag_prev_episode_step", None)
-
-    if previous is not None and episode_step < previous:
-        print(
-            "[RUN_RESET] observed_at_step=", step,
-            "previous_episode_step=", previous,
-            "current_episode_step=", episode_step,
-            flush=True,
-        )
-
-    env._straight_diag_prev_episode_step = episode_step
-
-    if step % 100 == 0:
-        robot = env.scene["robot"]
-        velocity_b = robot.data.root_lin_vel_b[0]
-        velocity_w = robot.data.root_lin_vel_w[0]
-        command = env.command_manager.get_command("base_velocity")[0]
-
-        print(
-            "[RUN_DIAG] step=", step,
-            "episode_step=", episode_step,
-            "command=", [
-                round(v, 3) for v in command.detach().cpu().tolist()
-            ],
-            "vx_body_mps=", round(velocity_b[0].item(), 3),
-            "vx_world_mps=", round(velocity_w[0].item(), 3),
-            "planar_speed_mps=",
-            round(velocity_w[:2].norm().item(), 3),
-            flush=True,
-        )
-
-    if fm is None or tuple(fm.shape[1:]) != (1, 2, 3):
-        raise RuntimeError(
-            f"专用矩阵异常：{None if fm is None else tuple(fm.shape)}"
-        )
-
-    if not hasattr(env, "_right_foot_pair_diag"):
-        env._right_foot_pair_diag = {
-            "peaks": [0.0, 0.0],
-            "hits": [0, 0],
-            "event_lines": 0,
-        }
-        print(
-            "[LEG_DIAG] targets:",
-            sensor.cfg.filter_prim_paths_expr,
-            flush=True,
-        )
-
-    state = env._right_foot_pair_diag
-    forces = fm[0, 0].norm(dim=-1).detach().cpu().tolist()
-
-    for i in range(2):
-        state["peaks"][i] = max(state["peaks"][i], forces[i])
-        state["hits"][i] += int(forces[i] > 20.0)
-
-    # 最多打印前 10 个超过阈值的采样，避免刷屏。
-    if max(forces) > 20.0 and state["event_lines"] < 10:
-        cmd = env.command_manager.get_command("base_velocity")[0]
-        print(
-            "[LEG_CONTACT] step=", step,
-            "right_to_left_foot_N=", round(forces[0], 2),
-            "right_to_left_knee_N=", round(forces[1], 2),
-            "command=", cmd.detach().cpu().tolist(),
-            flush=True,
-        )
-        state["event_lines"] += 1
-
-    if step % 100 == 0:
-        print(
-            "[LEG_DIAG] step=", step,
-            "foot_peak_N=", round(state["peaks"][0], 2),
-            "knee_peak_N=", round(state["peaks"][1], 2),
-            "samples_over_20N=", state["hits"],
-            flush=True,
-        )
-        state["peaks"] = [0.0, 0.0]
-        state["hits"] = [0, 0]
-
-    return torch.zeros(
-        env.num_envs,
-        device=env.device,
-        dtype=torch.bool,
-    )

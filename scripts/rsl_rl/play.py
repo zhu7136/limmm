@@ -77,7 +77,10 @@ from isaaclab.envs import (
 )
 from isaaclab.utils.assets import retrieve_file_path
 from isaaclab.utils.dict import print_dict
-from isaaclab.utils.pretrained_checkpoint import get_published_pretrained_checkpoint
+try:
+    from isaaclab.utils.pretrained_checkpoint import get_published_pretrained_checkpoint
+except ImportError:
+    get_published_pretrained_checkpoint = None
 
 from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg, RslRlVecEnvWrapper, export_policy_as_jit, export_policy_as_onnx
 
@@ -94,6 +97,11 @@ import limx_rl_forge.tasks
 @hydra_task_config(args_cli.task, "rsl_rl_cfg_entry_point")
 def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agent_cfg: RslRlOnPolicyRunnerCfg):
     """Play with RSL-RL agent."""
+
+    import inspect
+    print("[LEG_DIAG] RUNNING_PLAY:", __file__, flush=True)
+    print("[LEG_DIAG] ENV_CFG_SOURCE:", inspect.getfile(type(env_cfg)), flush=True)
+
     # grab task name for checkpoint path
     task_name = args_cli.task.split(":")[-1]
     train_task_name = task_name.replace("-Play", "")
@@ -123,8 +131,37 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
 
     log_dir = os.path.dirname(resume_path)
 
+    # 临时直线回放诊断：仅影响 play.py，不修改训练配置文件。
+    # 2.85 m/s 是本次测试指令，不代表机器人已经达到该速度。
+    diag_speed = 2.85
+
+    cmd_cfg = env_cfg.commands.base_velocity
+    cmd_cfg.ranges.lin_vel_x = (diag_speed, diag_speed)
+    cmd_cfg.ranges.lin_vel_y = (0.0, 0.0)
+    cmd_cfg.ranges.ang_vel_z = (0.0, 0.0)
+
+    # 避免随机站立或 heading 控制覆盖上述指令。
+    cmd_cfg.rel_standing_envs = 0.0
+    cmd_cfg.heading_command = False
+    cmd_cfg.rel_heading_envs = 0.0
+
+    # 只关闭两个已在启动日志中出现的周期扰动。
+    env_cfg.events.push_robot = None
+    env_cfg.events.base_external_force_torque = None
+
+    print(
+        "[RUN_DIAG] fixed command:",
+        (diag_speed, 0.0, 0.0),
+        "push_robot=None, base_external_force_torque=None",
+        flush=True,
+    )
+
     # create isaac environment
-    env = gym.make(args_cli.task, cfg=env_cfg, render_mode="rgb_array" if args_cli.video else None)
+    env = gym.make(
+        args_cli.task,
+        cfg=env_cfg,
+        render_mode="rgb_array" if args_cli.video else None,
+    )
 
     # convert to single-agent instance if required by the RL algorithm
     if isinstance(env.unwrapped, DirectMARLEnv):
@@ -164,15 +201,16 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
 
     # export policy to onnx/jit
     export_model_dir = os.path.join(os.path.dirname(resume_path), "exported")
-    export_policy_as_jit(policy_nn, ppo_runner.obs_normalizer, path=export_model_dir, filename="policy.pt")
+    obs_normalizer = getattr(ppo_runner, "obs_normalizer", None)
+    export_policy_as_jit(policy_nn, obs_normalizer, path=export_model_dir, filename="policy.pt")
     export_policy_as_onnx(
-        policy_nn, normalizer=ppo_runner.obs_normalizer, path=export_model_dir, filename="policy.onnx"
+        policy_nn, normalizer=obs_normalizer, path=export_model_dir, filename="policy.onnx"
     )
 
     dt = env.unwrapped.step_dt
 
     # reset environment
-    obs, _ = env.get_observations()
+    obs = env.get_observations()
     timestep = 0
     # simulate environment
     while simulation_app.is_running():
@@ -181,6 +219,12 @@ def main(env_cfg: ManagerBasedRLEnvCfg | DirectRLEnvCfg | DirectMARLEnvCfg, agen
         with torch.inference_mode():
             # agent stepping
             actions = policy(obs)
+            # print action for comparison
+            if timestep % 100 == 0:
+                p_obs = obs["policy"][0]
+                with open("/tmp/isaaclab_debug.log", "a") as f:
+                    f.write(f"[Isaac Lab] obs ang_vel:{torch.round(p_obs[:3].cpu(), decimals=3).tolist()} gravity:{torch.round(p_obs[3:6].cpu(), decimals=3).tolist()} cmd:{torch.round(p_obs[6:9].cpu(), decimals=3).tolist()} jpos0-5:{torch.round(p_obs[9:15].cpu(), decimals=3).tolist()} jvel0-5:{torch.round(p_obs[40:46].cpu(), decimals=3).tolist()}\n")
+                    f.write(f"[Isaac Lab] action[:6]: {actions[0, :6].tolist()}\n")
             # env stepping
             obs, _, _, _ = env.step(actions)
         if args_cli.video:

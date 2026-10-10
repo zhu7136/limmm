@@ -73,7 +73,13 @@ from isaaclab.envs import (
     multi_agent_to_single_agent,
 )
 from isaaclab.utils.dict import print_dict
-from isaaclab.utils.io import dump_pickle, dump_yaml
+from isaaclab.utils.io import dump_yaml
+import pickle
+
+def dump_pickle(file_path: str, data):
+    os.makedirs(os.path.dirname(file_path), exist_ok=True)
+    with open(file_path, "wb") as f:
+        pickle.dump(data, f)
 
 from isaaclab_rl.rsl_rl import RslRlOnPolicyRunnerCfg
 
